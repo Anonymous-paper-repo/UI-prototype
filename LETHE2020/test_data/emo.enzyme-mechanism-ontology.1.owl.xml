@@ -1,0 +1,1523 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/ontologies/2011/1/14/EMO.owl"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.semanticweb.org/ontologies/2011/1/14/EMO.owl">
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="/EMO_00048"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00049"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00044"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00045"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00046"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/hasDescription"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00047"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasChemicalTransformation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_33712"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_33713"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00051"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00052"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00053"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00054"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00050"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00037"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00158"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00038"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00159"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00039"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00033"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00154"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00034"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00155"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00035"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00156"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00036"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00157"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00040"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasReactionScheme"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00041"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00042"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00043"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00103"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_33250"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00104"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00105"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.org/obo/owl/GO#GO:0005575"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00106"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00066"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00100"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00068"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00101"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00102"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasMechanism"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPolymer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00107"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isActiveInCellularComponent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00108"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00109"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasReactionType"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/hasBond"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00073"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00074"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00075"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00076"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00070"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasComponent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00071"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00072"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00059"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasInteractionType"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00055"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00058"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_24433"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00062"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00063"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00064"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00065"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00060"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00061"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00004"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00125"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00005"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00126"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00006"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00127"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00007"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00128"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00088"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00121"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00001"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00089"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00122"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00002"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00123"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00003"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00124"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00008"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00129"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00009"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00090"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00095"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/hasMechanismType"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00096"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00097"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00130"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00010"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00098"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00131"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00091"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00092"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00093"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00094"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00114"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00115"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00116"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00117"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00077"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00110"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00078"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00111"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00079"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00112"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasInteraction"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00113"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00118"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00119"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasReaction"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00084"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00085"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00086"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00087"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00120"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00080"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00081"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00082"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/hasDirection"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00083"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isPartOfBiologicalProcess"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00026"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00147"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00027"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00148"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00149"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00028"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00029"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00022"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00143"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00023"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00144"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00024"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00145"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00025"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00146"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/hasMechanismClass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasFunctionalLocation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasAtom"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasCatalyticActivity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00150"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00030"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00151"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00031"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00152"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasInteractionTarget"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00032"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00153"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00015"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00136"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00016"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00137"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00017"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00138"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00018"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00139"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00011"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00099"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00132"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasComponentType"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasReactionLevel"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00012"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00133"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00013"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00134"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00014"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00135"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPosition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00019"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasAssembly"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasRole"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00140"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00020"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00141"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00021"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="/EMO_00142"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="/EMO_00001"/>
+        <ObjectMinCardinality cardinality="1">
+            <ObjectProperty IRI="#hasAssembly"/>
+            <Class IRI="/EMO_00126"/>
+        </ObjectMinCardinality>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="/EMO_00001"/>
+        <ObjectMinCardinality cardinality="1">
+            <ObjectProperty IRI="#hasCatalyticActivity"/>
+            <Class IRI="/EMO_00002"/>
+        </ObjectMinCardinality>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="/EMO_00008"/>
+        <Class IRI="/EMO_00131"/>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="/EMO_00010"/>
+        <ObjectMinCardinality cardinality="1">
+            <ObjectProperty IRI="#hasPosition"/>
+            <Class IRI="/EMO_00148"/>
+        </ObjectMinCardinality>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="/EMO_00098"/>
+        <Class IRI="/EMO_00099"/>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="/EMO_00129"/>
+        <ObjectMinCardinality cardinality="1">
+            <ObjectProperty IRI="#hasPosition"/>
+            <Class IRI="/EMO_00097"/>
+        </ObjectMinCardinality>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_24433"/>
+        <Class IRI="/EMO_00088"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_24433"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasAtom"/>
+            <Class IRI="http://purl.obolibrary.org/obo/CHEBI_33250"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_33250"/>
+        <Class IRI="/EMO_00088"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_33712"/>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_24433"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_33713"/>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_24433"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00001"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isActiveInCellularComponent"/>
+            <Class IRI="http://purl.org/obo/owl/GO#GO:0005575"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00001"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isPartOfBiologicalProcess"/>
+            <Class IRI="/EMO_00124"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00002"/>
+        <ObjectMinCardinality cardinality="1">
+            <ObjectProperty IRI="#hasReactionScheme"/>
+            <Class IRI="/EMO_00128"/>
+        </ObjectMinCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00003"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasChemicalTransformation"/>
+            <Class IRI="/EMO_00093"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00003"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasMechanism"/>
+            <Class IRI="/EMO_00016"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00003"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/hasDescription"/>
+            <Class IRI="/EMO_00136"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00003"/>
+        <ObjectMinCardinality cardinality="1">
+            <ObjectProperty IRI="#hasComponent"/>
+            <ObjectIntersectionOf>
+                <Class IRI="/EMO_00008"/>
+                <ObjectMinCardinality cardinality="1">
+                    <ObjectProperty IRI="#hasRole"/>
+                    <Class IRI="/EMO_00021"/>
+                </ObjectMinCardinality>
+            </ObjectIntersectionOf>
+        </ObjectMinCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00003"/>
+        <ObjectMinCardinality cardinality="1">
+            <ObjectProperty IRI="#hasComponent"/>
+            <ObjectIntersectionOf>
+                <Class IRI="/EMO_00008"/>
+                <ObjectMinCardinality cardinality="1">
+                    <ObjectProperty IRI="#hasRole"/>
+                    <Class IRI="/EMO_00139"/>
+                </ObjectMinCardinality>
+            </ObjectIntersectionOf>
+        </ObjectMinCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00003"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasReactionLevel"/>
+            <Class IRI="/EMO_00154"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00003"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasReactionType"/>
+            <Class IRI="/EMO_00004"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00003"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="/hasDirection"/>
+            <Class IRI="/EMO_00149"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00005"/>
+        <Class IRI="/EMO_00004"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00006"/>
+        <Class IRI="/EMO_00004"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00007"/>
+        <Class IRI="/EMO_00004"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00008"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasFunctionalLocation"/>
+            <Class IRI="/EMO_00088"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00008"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasInteraction"/>
+            <Class IRI="/EMO_00130"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00008"/>
+        <ObjectMinCardinality cardinality="1">
+            <ObjectProperty IRI="#hasRole"/>
+            <Class IRI="/EMO_00019"/>
+        </ObjectMinCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00008"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasComponentType"/>
+            <Class IRI="/EMO_00094"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00009"/>
+        <Class IRI="/EMO_00129"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00010"/>
+        <Class IRI="/EMO_00094"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00011"/>
+        <Class IRI="/EMO_00019"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00012"/>
+        <Class IRI="/EMO_00019"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00013"/>
+        <Class IRI="/EMO_00019"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00014"/>
+        <Class IRI="/EMO_00009"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00015"/>
+        <Class IRI="/EMO_00009"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00016"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/hasMechanismClass"/>
+            <Class IRI="/EMO_00101"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00016"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/hasMechanismType"/>
+            <Class IRI="/EMO_00100"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00017"/>
+        <Class IRI="/EMO_00053"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00018"/>
+        <Class IRI="/EMO_00032"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00020"/>
+        <Class IRI="/EMO_00022"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00021"/>
+        <Class IRI="/EMO_00019"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00023"/>
+        <Class IRI="/EMO_00132"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00024"/>
+        <Class IRI="/EMO_00022"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00025"/>
+        <Class IRI="/EMO_00053"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00026"/>
+        <Class IRI="/EMO_00019"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00027"/>
+        <Class IRI="/EMO_00019"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00028"/>
+        <Class IRI="/EMO_00019"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00029"/>
+        <Class IRI="/EMO_00024"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00030"/>
+        <Class IRI="/EMO_00029"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00031"/>
+        <Class IRI="/EMO_00029"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00032"/>
+        <Class IRI="/EMO_00024"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00033"/>
+        <Class IRI="/EMO_00032"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00034"/>
+        <Class IRI="/EMO_00032"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00035"/>
+        <Class IRI="/EMO_00032"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00036"/>
+        <Class IRI="/EMO_00032"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00037"/>
+        <Class IRI="/EMO_00032"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00038"/>
+        <Class IRI="/EMO_00024"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00039"/>
+        <Class IRI="/EMO_00159"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00040"/>
+        <Class IRI="/EMO_00159"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00041"/>
+        <Class IRI="/EMO_00158"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00042"/>
+        <Class IRI="/EMO_00158"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00043"/>
+        <Class IRI="/EMO_00159"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00044"/>
+        <Class IRI="/EMO_00159"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00045"/>
+        <Class IRI="/EMO_00157"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00046"/>
+        <Class IRI="/EMO_00157"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00047"/>
+        <Class IRI="/EMO_00053"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00048"/>
+        <Class IRI="/EMO_00129"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00049"/>
+        <Class IRI="/EMO_00022"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00050"/>
+        <Class IRI="/EMO_00020"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00051"/>
+        <Class IRI="/EMO_00020"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00052"/>
+        <Class IRI="/EMO_00020"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00053"/>
+        <Class IRI="/EMO_00020"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00054"/>
+        <Class IRI="/EMO_00050"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00055"/>
+        <Class IRI="/EMO_00050"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00058"/>
+        <Class IRI="/EMO_00050"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00059"/>
+        <Class IRI="/EMO_00050"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00060"/>
+        <Class IRI="/EMO_00050"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00061"/>
+        <Class IRI="/EMO_00050"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00062"/>
+        <Class IRI="/EMO_00052"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00063"/>
+        <Class IRI="/EMO_00052"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00064"/>
+        <Class IRI="/EMO_00052"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00065"/>
+        <Class IRI="/EMO_00052"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00066"/>
+        <Class IRI="/EMO_00062"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00068"/>
+        <Class IRI="/EMO_00062"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00070"/>
+        <Class IRI="/EMO_00062"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00071"/>
+        <Class IRI="/EMO_00063"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00072"/>
+        <Class IRI="/EMO_00063"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00073"/>
+        <Class IRI="/EMO_00063"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00074"/>
+        <Class IRI="/EMO_00064"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00075"/>
+        <Class IRI="/EMO_00064"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00076"/>
+        <Class IRI="/EMO_00064"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00077"/>
+        <Class IRI="/EMO_00065"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00078"/>
+        <Class IRI="/EMO_00065"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00079"/>
+        <Class IRI="/EMO_00065"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00080"/>
+        <Class IRI="/EMO_00051"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00081"/>
+        <Class IRI="/EMO_00051"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00082"/>
+        <Class IRI="/EMO_00025"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00083"/>
+        <Class IRI="/EMO_00025"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00084"/>
+        <Class IRI="/EMO_00025"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00085"/>
+        <Class IRI="/EMO_00047"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00086"/>
+        <Class IRI="/EMO_00047"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00087"/>
+        <Class IRI="/EMO_00047"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00089"/>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_24433"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00090"/>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_24433"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00091"/>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_33250"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00092"/>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_24433"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00093"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/hasBond"/>
+            <Class IRI="/EMO_00132"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00095"/>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_33250"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00096"/>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_33250"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00098"/>
+        <Class IRI="/EMO_00097"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00099"/>
+        <Class IRI="/EMO_00097"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00102"/>
+        <Class IRI="/EMO_00100"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00103"/>
+        <Class IRI="/EMO_00100"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00104"/>
+        <Class IRI="/EMO_00102"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00105"/>
+        <Class IRI="/EMO_00102"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00106"/>
+        <Class IRI="/EMO_00101"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00107"/>
+        <Class IRI="/EMO_00101"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00108"/>
+        <Class IRI="/EMO_00101"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00109"/>
+        <Class IRI="/EMO_00101"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00110"/>
+        <Class IRI="/EMO_00103"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00111"/>
+        <Class IRI="/EMO_00103"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00113"/>
+        <Class IRI="/EMO_00112"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00114"/>
+        <Class IRI="/EMO_00112"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00115"/>
+        <Class IRI="/EMO_00112"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00116"/>
+        <Class IRI="/EMO_00112"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00117"/>
+        <Class IRI="/EMO_00112"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00118"/>
+        <Class IRI="/EMO_00112"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00119"/>
+        <Class IRI="/EMO_00112"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00120"/>
+        <Class IRI="/EMO_00112"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00121"/>
+        <Class IRI="/EMO_00112"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00122"/>
+        <Class IRI="/EMO_00112"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00123"/>
+        <Class IRI="/EMO_00112"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00125"/>
+        <Class IRI="/EMO_00062"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00126"/>
+        <ObjectMinCardinality cardinality="1">
+            <ObjectProperty IRI="#hasPolymer"/>
+            <Class IRI="/EMO_00127"/>
+        </ObjectMinCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00128"/>
+        <ObjectMinCardinality cardinality="1">
+            <ObjectProperty IRI="#hasReaction"/>
+            <ObjectIntersectionOf>
+                <Class IRI="/EMO_00003"/>
+                <ObjectExactCardinality cardinality="1">
+                    <ObjectProperty IRI="#hasReactionLevel"/>
+                    <Class IRI="/EMO_00155"/>
+                </ObjectExactCardinality>
+            </ObjectIntersectionOf>
+        </ObjectMinCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00129"/>
+        <Class IRI="/EMO_00094"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00130"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasInteractionTarget"/>
+            <Class IRI="/EMO_00131"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00130"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasInteractionType"/>
+            <Class IRI="/EMO_00112"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00130"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasRole"/>
+            <Class IRI="/EMO_00022"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00133"/>
+        <Class IRI="/EMO_00132"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00134"/>
+        <Class IRI="/EMO_00132"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00135"/>
+        <Class IRI="/EMO_00132"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00137"/>
+        <Class IRI="/EMO_00101"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00138"/>
+        <Class IRI="/EMO_00019"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00139"/>
+        <Class IRI="/EMO_00019"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00140"/>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_24433"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00141"/>
+        <Class IRI="/EMO_00100"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00142"/>
+        <Class IRI="/EMO_00101"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00143"/>
+        <Class IRI="/EMO_00142"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00144"/>
+        <Class IRI="/EMO_00142"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00145"/>
+        <Class IRI="/EMO_00142"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00146"/>
+        <Class IRI="/EMO_00112"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00147"/>
+        <ObjectMinCardinality cardinality="2">
+            <ObjectProperty IRI="#hasCatalyticActivity"/>
+            <Class IRI="/EMO_00002"/>
+        </ObjectMinCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00150"/>
+        <Class IRI="/EMO_00149"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00151"/>
+        <Class IRI="/EMO_00149"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00152"/>
+        <Class IRI="/EMO_00149"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00153"/>
+        <Class IRI="/EMO_00149"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00155"/>
+        <Class IRI="/EMO_00154"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00156"/>
+        <Class IRI="/EMO_00154"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00157"/>
+        <Class IRI="/EMO_00038"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00158"/>
+        <Class IRI="/EMO_00038"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="/EMO_00159"/>
+        <Class IRI="/EMO_00038"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_24433"/>
+        <Class IRI="http://purl.obolibrary.org/obo/CHEBI_33250"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00005"/>
+        <Class IRI="/EMO_00006"/>
+        <Class IRI="/EMO_00007"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00010"/>
+        <Class IRI="/EMO_00129"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00011"/>
+        <Class IRI="/EMO_00028"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00012"/>
+        <Class IRI="/EMO_00013"/>
+        <Class IRI="/EMO_00021"/>
+        <Class IRI="/EMO_00026"/>
+        <Class IRI="/EMO_00027"/>
+        <Class IRI="/EMO_00028"/>
+        <Class IRI="/EMO_00139"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00012"/>
+        <Class IRI="/EMO_00013"/>
+        <Class IRI="/EMO_00027"/>
+        <Class IRI="/EMO_00028"/>
+        <Class IRI="/EMO_00138"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00014"/>
+        <Class IRI="/EMO_00015"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00023"/>
+        <Class IRI="/EMO_00133"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00095"/>
+        <Class IRI="/EMO_00096"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00102"/>
+        <Class IRI="/EMO_00103"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00104"/>
+        <Class IRI="/EMO_00105"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00106"/>
+        <Class IRI="/EMO_00107"/>
+        <Class IRI="/EMO_00108"/>
+        <Class IRI="/EMO_00109"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00110"/>
+        <Class IRI="/EMO_00111"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00113"/>
+        <Class IRI="/EMO_00114"/>
+        <Class IRI="/EMO_00115"/>
+        <Class IRI="/EMO_00116"/>
+        <Class IRI="/EMO_00117"/>
+        <Class IRI="/EMO_00118"/>
+        <Class IRI="/EMO_00119"/>
+        <Class IRI="/EMO_00120"/>
+        <Class IRI="/EMO_00121"/>
+        <Class IRI="/EMO_00122"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00150"/>
+        <Class IRI="/EMO_00151"/>
+        <Class IRI="/EMO_00152"/>
+        <Class IRI="/EMO_00153"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="/EMO_00155"/>
+        <Class IRI="/EMO_00156"/>
+    </DisjointClasses>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasChemicalTransformation"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasComponent"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasFunctionalLocation"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasInteraction"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasInteractionTarget"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasInteractionType"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasMechanism"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasReaction"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasReactionLevel"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasReactionScheme"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasReactionType"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasRole"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#isPartOfBiologicalProcess"/>
+    </FunctionalObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasAssembly"/>
+        <Class IRI="/EMO_00001"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasCatalyticActivity"/>
+        <Class IRI="/EMO_00001"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isActiveInCellularComponent"/>
+        <Class IRI="/EMO_00001"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isPartOfBiologicalProcess"/>
+        <Class IRI="/EMO_00001"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasAssembly"/>
+        <Class IRI="/EMO_00126"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasCatalyticActivity"/>
+        <Class IRI="/EMO_00002"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasChemicalTransformation"/>
+        <Class IRI="/EMO_00093"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasComponent"/>
+        <Class IRI="/EMO_00008"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasFunctionalLocation"/>
+        <Class IRI="/EMO_00088"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasMechanism"/>
+        <Class IRI="/EMO_00016"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasReaction"/>
+        <Class IRI="/EMO_00003"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasReactionType"/>
+        <Class IRI="/EMO_00004"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isActiveInCellularComponent"/>
+        <Class IRI="http://purl.org/obo/owl/GO#GO:0005575"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isPartOfBiologicalProcess"/>
+        <Class IRI="/EMO_00124"/>
+    </ObjectPropertyRange>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8) https://github.com/owlcs/owlapi -->
+

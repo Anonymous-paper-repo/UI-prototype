@@ -1,0 +1,1268 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://purl.phyloviz.net/ontology/typon"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://purl.phyloviz.net/ontology/typon">
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <DataProperty IRI="#interpolationMethod"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000726"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#index"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MLVA"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://dbpedia.org/ontology/Place"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TypingInformation"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nucleotideSequence"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Locus"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#cgMLST"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#imageFile"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#RidomId"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasTypingInformation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000019"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ownedBy"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/ENVO_00010483"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Isolate"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasIdentifiedAllele"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSequence"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#ST"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000001"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasLocus"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0001411"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#file"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#administratedBy"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/ENVO_01000254"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SpaAllele"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isOfLocus"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://xmlns.com/foaf/0.1/Agent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SequenceBasedTypingInformation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#rMLST"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Schema"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MultiLocus"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#curatedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSchemaPart"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isOfTaxon"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000004"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000002"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000001"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isolatedAt"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Allele"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000005"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000040"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000110"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#sequenceSize"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RepeatProfilePart"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#SRAAcession"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#schemaName"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isAssociatedTo"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#isolateId"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#spaType"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasDefinedAllele"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://purl.obolibrary.org/obo/BFO_0000051"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SpaRepeat"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#markerUsed"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#dateEntered"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#runProtocol"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.uniprot.org/core/Taxon"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#profile"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#id"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MLST"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#otherId"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#wgMLST"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#markerFragmentsUsed"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SingleLocus"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Sequence"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasAllele"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000031"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Genotypic"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000657"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#STAllele"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SchemaPart"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FragmentSizeBased"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSchema"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nrOfRepeats"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#spaTyping"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#sentBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isolatedOnSystem"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#VNTRAllele"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0001060"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isolatedOnMaterial"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasRepeatProfilePart"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasRepeat"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SequenceBased"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/OBI_0100026"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isFromTaxon"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#KreiswirthID"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#sampleCollectionDate"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#software"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000020"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#PubMedID"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000002"/>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000001"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000004"/>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000002"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000005"/>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000002"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000019"/>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000020"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000020"/>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000005"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000031"/>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000005"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000040"/>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000004"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/ENVO_00010483"/>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000040"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/OBI_0100026"/>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000040"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000001"/>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000031"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000001"/>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000110"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000657"/>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0001411"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000726"/>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0001411"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0001411"/>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000001"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Allele"/>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0001060"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Allele"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#curatedBy"/>
+            <Class IRI="http://xmlns.com/foaf/0.1/Agent"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Allele"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasSequence"/>
+            <Class IRI="#Sequence"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Allele"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isOfLocus"/>
+            <Class IRI="#Locus"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Allele"/>
+        <DataMaxCardinality cardinality="1">
+            <DataProperty IRI="#dateEntered"/>
+            <Datatype abbreviatedIRI="xsd:dateTime"/>
+        </DataMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Allele"/>
+        <DataMaxCardinality cardinality="1">
+            <DataProperty IRI="#id"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FragmentSizeBased"/>
+        <Class IRI="#Genotypic"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FragmentSizeBased"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="#imageFile"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FragmentSizeBased"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="#interpolationMethod"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FragmentSizeBased"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="#markerFragmentsUsed"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FragmentSizeBased"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="#markerUsed"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FragmentSizeBased"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="#runProtocol"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FragmentSizeBased"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="#software"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Genotypic"/>
+        <Class IRI="#SequenceBasedTypingInformation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <Class IRI="http://purl.obolibrary.org/obo/OBI_0100026"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#curatedBy"/>
+            <Class IRI="http://xmlns.com/foaf/0.1/Agent"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasAllele"/>
+            <Class IRI="#Allele"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasSequence"/>
+            <Class IRI="#Sequence"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTypingInformation"/>
+            <Class IRI="#TypingInformation"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isFromTaxon"/>
+            <Class IRI="http://purl.uniprot.org/core/Taxon"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isolatedAt"/>
+            <Class IRI="http://dbpedia.org/ontology/Place"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isolatedOnMaterial"/>
+            <Class IRI="http://purl.obolibrary.org/obo/ENVO_00010483"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isolatedOnSystem"/>
+            <Class IRI="http://purl.obolibrary.org/obo/ENVO_01000254"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#ownedBy"/>
+            <Class IRI="http://xmlns.com/foaf/0.1/Agent"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#sentBy"/>
+            <Class IRI="http://xmlns.com/foaf/0.1/Agent"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="#otherId"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <DataMaxCardinality cardinality="1">
+            <DataProperty IRI="#SRAAcession"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <DataMaxCardinality cardinality="1">
+            <DataProperty IRI="#dateEntered"/>
+            <Datatype abbreviatedIRI="xsd:dateTime"/>
+        </DataMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <DataMaxCardinality cardinality="1">
+            <DataProperty IRI="#isolateId"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Isolate"/>
+        <DataMaxCardinality cardinality="1">
+            <DataProperty IRI="#sampleCollectionDate"/>
+            <Datatype abbreviatedIRI="xsd:dateTime"/>
+        </DataMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Locus"/>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000001"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Locus"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasDefinedAllele"/>
+            <Class IRI="#Allele"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Locus"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isOfTaxon"/>
+            <Class IRI="http://purl.uniprot.org/core/Taxon"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Locus"/>
+        <DataMaxCardinality cardinality="1">
+            <DataProperty IRI="#dateEntered"/>
+            <Datatype abbreviatedIRI="xsd:dateTime"/>
+        </DataMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MLST"/>
+        <Class IRI="#MultiLocus"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MLST"/>
+        <Class IRI="#SequenceBased"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MLST"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasIdentifiedAllele"/>
+            <Class IRI="#STAllele"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MLST"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasSchema"/>
+            <Class IRI="#Schema"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MLST"/>
+        <DataExactCardinality cardinality="1">
+            <DataProperty IRI="#ST"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MLVA"/>
+        <Class IRI="#FragmentSizeBased"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MLVA"/>
+        <Class IRI="#MultiLocus"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MLVA"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasIdentifiedAllele"/>
+            <Class IRI="#VNTRAllele"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MLVA"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasSchema"/>
+            <Class IRI="#Schema"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MultiLocus"/>
+        <Class IRI="#SequenceBasedTypingInformation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MultiLocus"/>
+        <DataExactCardinality cardinality="1">
+            <DataProperty IRI="#profile"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RepeatProfilePart"/>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000019"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RepeatProfilePart"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasRepeat"/>
+            <Class IRI="#SpaRepeat"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RepeatProfilePart"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="#index"/>
+            <Datatype abbreviatedIRI="xsd:int"/>
+        </DataSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#STAllele"/>
+        <Class IRI="#Allele"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Schema"/>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000019"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Schema"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#administratedBy"/>
+            <Class IRI="http://xmlns.com/foaf/0.1/Agent"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Schema"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasSchemaPart"/>
+            <Class IRI="#SchemaPart"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Schema"/>
+        <DataMaxCardinality cardinality="1">
+            <DataProperty IRI="#PubMedID"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Schema"/>
+        <DataMaxCardinality cardinality="1">
+            <DataProperty IRI="#schemaName"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SchemaPart"/>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000019"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SchemaPart"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasLocus"/>
+            <Class IRI="#Locus"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SchemaPart"/>
+        <DataMaxCardinality cardinality="1">
+            <DataProperty IRI="#index"/>
+            <Datatype abbreviatedIRI="xsd:int"/>
+        </DataMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Sequence"/>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000001"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Sequence"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="#file"/>
+            <Datatype abbreviatedIRI="rdfs:Literal"/>
+        </DataSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Sequence"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="#nucleotideSequence"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SequenceBased"/>
+        <Class IRI="#Genotypic"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SequenceBasedTypingInformation"/>
+        <Class IRI="#TypingInformation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SingleLocus"/>
+        <Class IRI="#SequenceBasedTypingInformation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SingleLocus"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasLocus"/>
+            <Class IRI="#Locus"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SpaAllele"/>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000657"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SpaAllele"/>
+        <Class IRI="#Allele"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SpaAllele"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasRepeatProfilePart"/>
+            <Class IRI="#RepeatProfilePart"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SpaRepeat"/>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000726"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SpaRepeat"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasSequence"/>
+            <Class IRI="#Sequence"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SpaRepeat"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="#KreiswirthID"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SpaRepeat"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="#RidomId"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TypingInformation"/>
+        <Class IRI="http://purl.obolibrary.org/obo/BFO_0000019"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TypingInformation"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isAssociatedTo"/>
+            <Class IRI="http://purl.uniprot.org/core/Taxon"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#VNTRAllele"/>
+        <Class IRI="http://purl.obolibrary.org/obo/SO_0000657"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#VNTRAllele"/>
+        <Class IRI="#Allele"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#VNTRAllele"/>
+        <DataExactCardinality cardinality="1">
+            <DataProperty IRI="#nrOfRepeats"/>
+            <Datatype abbreviatedIRI="xsd:int"/>
+        </DataExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#VNTRAllele"/>
+        <DataMaxCardinality cardinality="1">
+            <DataProperty IRI="#sequenceSize"/>
+            <Datatype abbreviatedIRI="xsd:int"/>
+        </DataMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#cgMLST"/>
+        <Class IRI="#MLST"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#rMLST"/>
+        <Class IRI="#MLST"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#spaTyping"/>
+        <Class IRI="#SequenceBased"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#spaTyping"/>
+        <Class IRI="#SingleLocus"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#spaTyping"/>
+        <ObjectMaxCardinality cardinality="1">
+            <ObjectProperty IRI="#hasIdentifiedAllele"/>
+            <Class IRI="#SpaAllele"/>
+        </ObjectMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#spaTyping"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="#spaType"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#wgMLST"/>
+        <Class IRI="#MLST"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#FragmentSizeBased"/>
+        <Class IRI="#SequenceBased"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#MultiLocus"/>
+        <Class IRI="#SingleLocus"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#STAllele"/>
+        <Class IRI="#SpaAllele"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#STAllele"/>
+        <Class IRI="#VNTRAllele"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#SpaAllele"/>
+        <Class IRI="#VNTRAllele"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#cgMLST"/>
+        <Class IRI="#rMLST"/>
+        <Class IRI="#wgMLST"/>
+    </DisjointClasses>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasRepeatProfilePart"/>
+        <ObjectProperty IRI="http://purl.obolibrary.org/obo/BFO_0000051"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasSchemaPart"/>
+        <ObjectProperty IRI="http://purl.obolibrary.org/obo/BFO_0000051"/>
+    </SubObjectPropertyOf>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="http://purl.obolibrary.org/obo/BFO_0000051"/>
+    </TransitiveObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#administratedBy"/>
+        <Class IRI="#Schema"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#curatedBy"/>
+        <ObjectUnionOf>
+            <Class IRI="#Allele"/>
+            <Class IRI="#Isolate"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasAllele"/>
+        <Class IRI="#Isolate"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasDefinedAllele"/>
+        <Class IRI="#Locus"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasIdentifiedAllele"/>
+        <ObjectUnionOf>
+            <Class IRI="#MultiLocus"/>
+            <Class IRI="#SingleLocus"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasLocus"/>
+        <ObjectUnionOf>
+            <Class IRI="#SchemaPart"/>
+            <Class IRI="#SingleLocus"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasRepeat"/>
+        <Class IRI="#RepeatProfilePart"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasRepeatProfilePart"/>
+        <Class IRI="#SpaAllele"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasSchema"/>
+        <ObjectUnionOf>
+            <Class IRI="#MLST"/>
+            <Class IRI="#MLVA"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasSchemaPart"/>
+        <Class IRI="#Schema"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasSequence"/>
+        <ObjectUnionOf>
+            <Class IRI="#Allele"/>
+            <Class IRI="#Isolate"/>
+            <Class IRI="#SpaRepeat"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasTypingInformation"/>
+        <Class IRI="#Isolate"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isAssociatedTo"/>
+        <ObjectUnionOf>
+            <Class IRI="#SchemaPart"/>
+            <Class IRI="#TypingInformation"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isFromTaxon"/>
+        <Class IRI="#Isolate"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isOfLocus"/>
+        <Class IRI="#Allele"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isOfTaxon"/>
+        <Class IRI="#Locus"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isolatedAt"/>
+        <Class IRI="#Isolate"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isolatedOnMaterial"/>
+        <Class IRI="#Isolate"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isolatedOnSystem"/>
+        <Class IRI="#Isolate"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#ownedBy"/>
+        <Class IRI="#Isolate"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#sentBy"/>
+        <Class IRI="#Isolate"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#administratedBy"/>
+        <Class IRI="http://xmlns.com/foaf/0.1/Agent"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#curatedBy"/>
+        <Class IRI="http://xmlns.com/foaf/0.1/Agent"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasAllele"/>
+        <Class IRI="#Allele"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasDefinedAllele"/>
+        <Class IRI="#Allele"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasIdentifiedAllele"/>
+        <Class IRI="#Allele"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasLocus"/>
+        <Class IRI="#Locus"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasRepeat"/>
+        <Class IRI="#SpaRepeat"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasRepeatProfilePart"/>
+        <Class IRI="#RepeatProfilePart"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasSchema"/>
+        <Class IRI="#Schema"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasSchemaPart"/>
+        <Class IRI="#SchemaPart"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasSequence"/>
+        <Class IRI="#Sequence"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasTypingInformation"/>
+        <Class IRI="#TypingInformation"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isAssociatedTo"/>
+        <Class IRI="http://purl.uniprot.org/core/Taxon"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isFromTaxon"/>
+        <Class IRI="http://purl.uniprot.org/core/Taxon"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isOfLocus"/>
+        <Class IRI="#Locus"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isOfTaxon"/>
+        <Class IRI="http://purl.uniprot.org/core/Taxon"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isolatedAt"/>
+        <Class IRI="http://dbpedia.org/ontology/Place"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isolatedOnMaterial"/>
+        <Class IRI="http://purl.obolibrary.org/obo/ENVO_00010483"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isolatedOnSystem"/>
+        <Class IRI="http://purl.obolibrary.org/obo/ENVO_01000254"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#ownedBy"/>
+        <Class IRI="http://xmlns.com/foaf/0.1/Agent"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#sentBy"/>
+        <Class IRI="http://xmlns.com/foaf/0.1/Agent"/>
+    </ObjectPropertyRange>
+    <DataPropertyDomain>
+        <DataProperty IRI="#KreiswirthID"/>
+        <Class IRI="#SpaRepeat"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#PubMedID"/>
+        <Class IRI="#Schema"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#RidomId"/>
+        <Class IRI="#SpaRepeat"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#SRAAcession"/>
+        <Class IRI="#Isolate"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#ST"/>
+        <Class IRI="#MLST"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#dateEntered"/>
+        <ObjectUnionOf>
+            <Class IRI="#Allele"/>
+            <Class IRI="#Isolate"/>
+            <Class IRI="#Locus"/>
+        </ObjectUnionOf>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#file"/>
+        <Class IRI="#Sequence"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#id"/>
+        <Class IRI="#Allele"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#imageFile"/>
+        <Class IRI="#FragmentSizeBased"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#index"/>
+        <ObjectUnionOf>
+            <Class IRI="#RepeatProfilePart"/>
+            <Class IRI="#SchemaPart"/>
+        </ObjectUnionOf>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#interpolationMethod"/>
+        <Class IRI="#FragmentSizeBased"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#isolateId"/>
+        <Class IRI="#Isolate"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#markerFragmentsUsed"/>
+        <Class IRI="#FragmentSizeBased"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#markerUsed"/>
+        <Class IRI="#FragmentSizeBased"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nrOfRepeats"/>
+        <Class IRI="#VNTRAllele"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nucleotideSequence"/>
+        <Class IRI="#Sequence"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#otherId"/>
+        <Class IRI="#Isolate"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#profile"/>
+        <Class IRI="#MultiLocus"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#runProtocol"/>
+        <Class IRI="#FragmentSizeBased"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#sampleCollectionDate"/>
+        <Class IRI="#Isolate"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#schemaName"/>
+        <Class IRI="#Schema"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#sequenceSize"/>
+        <Class IRI="#VNTRAllele"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#software"/>
+        <Class IRI="#FragmentSizeBased"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#spaType"/>
+        <Class IRI="#spaTyping"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#KreiswirthID"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#PubMedID"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#RidomId"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#SRAAcession"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#ST"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#dateEntered"/>
+        <Datatype abbreviatedIRI="xsd:dateTime"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#file"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#id"/>
+        <Datatype abbreviatedIRI="xsd:long"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#imageFile"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#index"/>
+        <Datatype abbreviatedIRI="xsd:int"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#interpolationMethod"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#isolateId"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#markerFragmentsUsed"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#markerUsed"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nrOfRepeats"/>
+        <Datatype abbreviatedIRI="xsd:int"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nucleotideSequence"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#otherId"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#profile"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#runProtocol"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#sampleCollectionDate"/>
+        <Datatype abbreviatedIRI="xsd:dateTime"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#schemaName"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#sequenceSize"/>
+        <Datatype abbreviatedIRI="xsd:int"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#software"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#spaType"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8) https://github.com/owlcs/owlapi -->
+
