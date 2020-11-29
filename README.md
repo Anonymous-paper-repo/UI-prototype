@@ -1,6 +1,6 @@
 # UI-prototype
 
-#Usage of the Prototype:
+## Usage of the Prototype:
 
 To get the prototype work, first you need to make sure you have Java Runtime Environment installed on your machine, and we suggest you using a Java IDE such as Eclipse to run the code.
 
