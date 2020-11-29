@@ -1,6 +1,6 @@
 package swing;
 
-public class FameGUI {
+public class UI_GUI {
 	public static void main(String[] args) {
 		new MainWindow().run();
 	}
