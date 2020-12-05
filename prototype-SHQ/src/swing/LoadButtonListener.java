@@ -10,6 +10,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
+import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.IRIDocumentSource;
 import org.semanticweb.owlapi.model.IRI;
@@ -17,6 +18,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyLoaderConfiguration;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 import concepts.AtomicConcept;
 import convertion.Converter;
@@ -30,6 +32,9 @@ public class LoadButtonListener implements ActionListener {
 	private JList<AtomicConcept> concept_list;
 	private JList<AtomicConcept> result_list;
 	public static String ontologyPath = "";
+
+	
+	
 
 	@SuppressWarnings("unchecked")
 	public LoadButtonListener() {
@@ -91,6 +96,7 @@ public class LoadButtonListener implements ActionListener {
 						new OWLOntologyLoaderConfiguration().setLoadAnnotationAxioms(true));
 				//formulaList = bc.toAxiomsList(pp.getCNF(pp.getSimplifiedForm(pp.getClauses(ct.OntologyConverter_ShortForm(ontology)))));
 				formulaList = ct.OntologyConverter_ShortForm(ontology);
+				
 				System.out.println("===================================================");
 				System.out.println("Ontology Metrics:");
 				System.out.println("No. of Logical Axioms: " + ontology.getLogicalAxiomCount());

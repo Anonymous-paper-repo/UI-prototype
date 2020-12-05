@@ -4,6 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.PrefixManager;
+import org.semanticweb.owlapi.util.DefaultPrefixManager;
+
 import checkexistence.EChecker;
 import checkfrequency.FChecker;
 import concepts.AtomicConcept;
@@ -56,6 +66,7 @@ public class Inferencer {
 			throws CloneNotSupportedException {
 		
 		//System.out.println("combine formula_list = " + formula_list);
+
 		List<Formula> output_list = new ArrayList<>();
 				
 		// C or A
@@ -400,7 +411,24 @@ public class Inferencer {
 							}
 							
 							
-							if (ngp_geq.getSubFormulas().get(0).equals(pgp_geq.getSubFormulas().get(0))) {
+							//****************************************
+							//if (ngp_geq.getSubFormulas().get(0).equals(pgp_geq.getSubFormulas().get(0))) {
+							OWLAxiom oa1 = getRoleSubAxiom(ngp_geq.getSubFormulas().get(0), 
+									pgp_geq.getSubFormulas().get(0));
+							OWLAxiom oa2 = getRoleSubAxiom(pgp_geq.getSubFormulas().get(0), 
+									ngp_geq.getSubFormulas().get(0));
+							Boolean combine_flag = false;
+							Formula com_r = null;
+							if(Converter.reasoner.isEntailed(oa1)) {
+								combine_flag = true;
+								com_r = pgp_geq.getSubFormulas().get(0);
+							} else if (Converter.reasoner.isEntailed(oa2)) {
+								combine_flag = true;
+								com_r = ngp_geq.getSubFormulas().get(0);
+							}
+							
+							
+							if (combine_flag) {
 								Integer n1 = Math.max(ngp_geq.get_num(),pgp_geq.get_num());
 								Integer n2 = Math.min(ngp_geq.get_num(), pgp_geq.get_num());
 								List<Formula> or_list = new ArrayList<>();
@@ -426,8 +454,8 @@ public class Inferencer {
 									List<Formula> res_list = new ArrayList<>();
 									res_list.addAll(pgp_frac_list);
 									res_list.addAll(ngp_frac_list);
-									res_list.add(new Geq(n1+i,ngp_geq.getSubFormulas().get(0),TopConcept.getInstance()));
-									res_list.add(new Geq(n2+1-i,ngp_geq.getSubFormulas().get(0),k12));
+									res_list.add(new Geq(n1+i,com_r,TopConcept.getInstance()));
+									res_list.add(new Geq(n2+1-i,com_r,k12));
 									output_list.add(new Or(res_list));
 								}
 							}
@@ -493,8 +521,21 @@ public class Inferencer {
 								}
 							}
 							
-							if (plp_leq.getSubFormulas().get(0).equals(ngp_geq.getSubFormulas().get(0)) &&
-									ngp_geq.get_num() >= plp_leq.get_num()) {
+							//****************************************
+							//if (plp_leq.getSubFormulas().get(0).equals(ngp_geq.getSubFormulas().get(0)) &&
+							//		ngp_geq.get_num() >= plp_leq.get_num()) {
+							
+							
+							OWLAxiom oa1 = getRoleSubAxiom(ngp_geq.getSubFormulas().get(0), 
+									plp_leq.getSubFormulas().get(0));
+							Boolean combine_flag = false;
+							Formula com_r = null;
+							if(Converter.reasoner.isEntailed(oa1)) {
+								combine_flag = true;
+								com_r = ngp_geq.getSubFormulas().get(0);
+							} 
+							
+							if (combine_flag&&(ngp_geq.get_num() >= plp_leq.get_num())){
 								List<Formula> and_list = new ArrayList<>();
 								List<Formula> tmp_list = new ArrayList<>();
 								List<Formula> res_list = new ArrayList<>();
@@ -528,7 +569,7 @@ public class Inferencer {
 								and_list.add(new Negation(k3));
 								res_list.addAll(plp_frac_list);
 								res_list.addAll(ngp_frac_list);
-								res_list.add(new Geq(ngp_geq.get_num()-plp_leq.get_num(),plp_leq.getSubFormulas().get(0),new And(and_list)));
+								res_list.add(new Geq(ngp_geq.get_num()-plp_leq.get_num(),com_r,new And(and_list)));
 								output_list.add(new Or(res_list));
 							}
 							
@@ -598,8 +639,22 @@ public class Inferencer {
 								}
 							}
 							
-							if (nlp_leq.getSubFormulas().get(0).equals(pgp_geq.getSubFormulas().get(0)) &&
-									pgp_geq.get_num() >= nlp_leq.get_num()) {
+							//******************************
+							//if (nlp_leq.getSubFormulas().get(0).equals(pgp_geq.getSubFormulas().get(0)) &&
+							//		pgp_geq.get_num() >= nlp_leq.get_num()) {
+							
+
+							OWLAxiom oa1 = getRoleSubAxiom(pgp_geq.getSubFormulas().get(0), 
+									nlp_leq.getSubFormulas().get(0));
+							Boolean combine_flag = false;
+							Formula com_r = null;
+							if(Converter.reasoner.isEntailed(oa1)) {
+								combine_flag = true;
+								com_r = pgp_geq.getSubFormulas().get(0);
+							}
+							
+
+							if ((combine_flag) && (pgp_geq.get_num() >= nlp_leq.get_num())){
 								List<Formula> and_list = new ArrayList<>();
 								List<Formula> tmp_list = new ArrayList<>();
 								List<Formula> res_list = new ArrayList<>();
@@ -633,7 +688,7 @@ public class Inferencer {
 								and_list.add(new Negation(k4));
 								res_list.addAll(nlp_frac_list);
 								res_list.addAll(pgp_frac_list);
-								res_list.add(new Geq(pgp_geq.get_num()-nlp_leq.get_num(),nlp_leq.getSubFormulas().get(0),new And(and_list)));
+								res_list.add(new Geq(pgp_geq.get_num()-nlp_leq.get_num(),com_r,new And(and_list)));
 								output_list.add(new Or(res_list));
 							}
 						}
@@ -699,11 +754,26 @@ public class Inferencer {
 								}
 							}
 							
-							if (plp_leq.getSubFormulas().get(0).equals(nlp_leq.getSubFormulas().get(0))) {
+							//if (plp_leq.getSubFormulas().get(0).equals(nlp_leq.getSubFormulas().get(0))) {
+							OWLAxiom oa1 = getRoleSubAxiom(plp_leq.getSubFormulas().get(0), 
+									nlp_leq.getSubFormulas().get(0));
+							OWLAxiom oa2 = getRoleSubAxiom(nlp_leq.getSubFormulas().get(0), 
+									plp_leq.getSubFormulas().get(0));
+							Boolean combine_flag = false;
+							Formula com_r = null;
+							if(Converter.reasoner.isEntailed(oa1)) {
+								combine_flag = true;
+								com_r = nlp_leq.getSubFormulas().get(0);
+							} else if (Converter.reasoner.isEntailed(oa2)) {
+								combine_flag = true;
+								com_r = plp_leq.getSubFormulas().get(0);
+							}
+							
+							if (combine_flag) {
 								List<Formula> res_list = new ArrayList<>();
 								res_list.addAll(plp_frac_list);
 								res_list.addAll(nlp_frac_list);
-								res_list.add(new Leq(plp_leq.get_num()+nlp_leq.get_num(),plp_leq.getSubFormulas().get(0),TopConcept.getInstance()));
+								res_list.add(new Leq(plp_leq.get_num()+nlp_leq.get_num(),com_r,TopConcept.getInstance()));
 								output_list.add(new Or(res_list));
 							}
 							
@@ -1593,5 +1663,25 @@ public class Inferencer {
 		
 	}
 	
+	public static OWLAxiom getRoleSubAxiom(String pre, String r, String s) {
+		OWLOntologyManager man = OWLManager.createOWLOntologyManager();
+		PrefixManager prefix = new DefaultPrefixManager(
+				pre);
+		OWLDataFactory df = man.getOWLDataFactory();
+		OWLObjectProperty rr = df.getOWLObjectProperty(r, prefix);
+		OWLObjectProperty ss = df.getOWLObjectProperty(s, prefix);
+		OWLAxiom OSP =df.getOWLSubObjectPropertyOfAxiom(rr, ss);
+		return OSP;
+	}
+	
+	public static OWLAxiom getRoleSubAxiom(Formula role1, Formula role2) {
+		OWLOntologyManager man = OWLManager.createOWLOntologyManager();
+
+		OWLDataFactory df = man.getOWLDataFactory();
+		OWLObjectProperty rr = Converter.map1.get(role1);
+		OWLObjectProperty ss = Converter.map1.get(role2);
+		OWLAxiom OSP =df.getOWLSubObjectPropertyOfAxiom(rr, ss);
+		return OSP;
+	}
 	
 }

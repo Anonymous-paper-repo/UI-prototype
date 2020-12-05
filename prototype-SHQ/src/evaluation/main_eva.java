@@ -26,7 +26,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 public class main_eva {
 	public static void main(String[] args) throws OWLOntologyCreationException, InterruptedException, ExecutionException {
 		forget_mine rt = new forget_mine();
-		String path = "/Users/yue_x/Desktop/www/NCBO BioPortal/owlxml/typon.microbial-typing-ontology.11.owl.xml";  // Path of test data(an ontology).
+		String path = "/Users/yue_x/Desktop/www/NCBO BioPortal/owlxml/peao.plant-experimental-assay-ontology.1.owl.xml";  // Path of test data(an ontology).
 		File file = new File(path);
 		rt.evaluation(file);
 	}

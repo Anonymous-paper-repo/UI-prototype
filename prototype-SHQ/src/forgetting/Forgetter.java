@@ -523,5 +523,7 @@ public class Forgetter {
 
 		return clause_list_normalised;
 	}
+	
+	
 
 }
