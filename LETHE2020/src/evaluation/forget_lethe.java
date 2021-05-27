@@ -1,6 +1,7 @@
 package evaluation;
 import uk.ac.man.cs.lethe.forgetting.IOWLForgetter;
 import uk.ac.man.cs.lethe.forgetting.ShqTBoxForgetter;
+import uk.ac.man.cs.lethe.interpolation.ShqTBoxInterpolator;
 import evaluation.random_select;
 
 
@@ -45,11 +46,8 @@ public class forget_lethe {
 		OWLOntology inputontology = manager.loadOntologyFromOntologyDocument(new IRIDocumentSource(iri),
 				new OWLOntologyLoaderConfiguration().setLoadAnnotationAxioms(true));
 		OWLOntology resultontology;
-
-
 		Set<OWLClass> names = inputontology.getClassesInSignature();
 		Set<OWLEntity> name = new HashSet<>(names);
-		IOWLForgetter forgetter = new ShqTBoxForgetter();
 		runtime = 0;
 		int success_num = 0;
 		int kk = 0;
@@ -82,7 +80,7 @@ public class forget_lethe {
 		random_select rs = new random_select();
 		int c_percent = 10;
 		Set<OWLEntity> names = rs.getrandomSet(c_names,c_percent);
-		IOWLForgetter forgetter = new ShqTBoxForgetter();
+		ShqTBoxForgetter forgetter = new ShqTBoxForgetter();
 		long start_time = System.currentTimeMillis();
 		OWLOntology resultontology = forgetter.forget(ontology, names);
 		long end_time = System.currentTimeMillis();
