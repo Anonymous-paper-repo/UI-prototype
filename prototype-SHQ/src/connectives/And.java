@@ -24,7 +24,16 @@ public class And extends Formula {
 	
 	public And(List<Formula> list) {
 		super(list.size());
+		if(list.size()==1){
+			int i = 1;
+		}
 		this.setSubFormulas(list);
+	}
+	public And(Formula...args){
+		super(args.length);
+		for (int i=0;i<args.length;i++){
+			this.getSubFormulas().add(args[i]);
+		}
 	}
 
 	@Override

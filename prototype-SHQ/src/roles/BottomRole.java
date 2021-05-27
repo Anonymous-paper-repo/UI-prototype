@@ -11,7 +11,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  *
  * @author Yizheng
  */
-public class BottomRole extends RoleExpression {
+public class BottomRole extends AtomicRole {
 
 	private static final BottomRole BR = new BottomRole();
 

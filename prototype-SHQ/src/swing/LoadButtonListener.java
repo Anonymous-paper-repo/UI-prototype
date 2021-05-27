@@ -3,8 +3,7 @@ package swing;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -13,12 +12,8 @@ import javax.swing.JList;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.IRIDocumentSource;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyLoaderConfiguration;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.model.*;
+
 
 import concepts.AtomicConcept;
 import convertion.Converter;
@@ -33,8 +28,6 @@ public class LoadButtonListener implements ActionListener {
 	private JList<AtomicConcept> result_list;
 	public static String ontologyPath = "";
 
-	
-	
 
 	@SuppressWarnings("unchecked")
 	public LoadButtonListener() {
@@ -89,20 +82,22 @@ public class LoadButtonListener implements ActionListener {
 			IRI iri = IRI.create(file);
 			
 			Converter ct = new Converter();
+			ct.CReset();
 			//BackConverter bc = new BackConverter();
 			//PreProcessor pp = new PreProcessor();
 			try {
-				OWLOntology ontology = manager.loadOntologyFromOntologyDocument(new IRIDocumentSource(iri),
+				Converter.ontology = manager.loadOntologyFromOntologyDocument(new IRIDocumentSource(iri),
 						new OWLOntologyLoaderConfiguration().setLoadAnnotationAxioms(true));
 				//formulaList = bc.toAxiomsList(pp.getCNF(pp.getSimplifiedForm(pp.getClauses(ct.OntologyConverter_ShortForm(ontology)))));
-				formulaList = ct.OntologyConverter_ShortForm(ontology);
-				
+				roleList = ct.getRolesInSignature_ShortForm(Converter.ontology);
+				conceptList = ct.getConceptsInSignature_ShortForm(Converter.ontology);
+				formulaList = ct.OntologyConverter_ShortForm(Converter.ontology);
 				System.out.println("===================================================");
 				System.out.println("Ontology Metrics:");
-				System.out.println("No. of Logical Axioms: " + ontology.getLogicalAxiomCount());
-				System.out.println("No. of Concept Names: " + ontology.getClassesInSignature().size());
-				System.out.println("No. of Role Names: " + ontology.getObjectPropertiesInSignature().size());
-				System.out.println("No. of Individuals: " + ontology.getIndividualsInSignature().size());
+				System.out.println("No. of Logical Axioms: " + Converter.ontology.getLogicalAxiomCount());
+				System.out.println("No. of Concept Names: " + Converter.ontology.getClassesInSignature().size());
+				System.out.println("No. of Role Names: " + Converter.ontology.getObjectPropertiesInSignature().size());
+				System.out.println("No. of Individuals: " + Converter.ontology.getIndividualsInSignature().size());
 				System.out.println("No. of OWLSubClassOfAxiom: " + Converter.getI());
 				System.out.println("No. of OWLEquivalentClassesAxiom: " + Converter.getJ());
 				System.out.println("No. of OWLDisjointClassesAxiom: " + Converter.getK());
@@ -115,8 +110,6 @@ public class LoadButtonListener implements ActionListener {
 				System.out.println("No. of OWLObjectPropertyAssertionAxiom: " + Converter.getR());
 				System.out.println("No. of OtherAxiom: " + Converter.getS());
 				System.out.println("===================================================");
-				roleList = ct.getRolesInSignature_ShortForm(ontology);
-				conceptList = ct.getConceptsInSignature_ShortForm(ontology);
 				Collections.sort(roleList);
 				Collections.sort(conceptList);
 			} catch (OWLOntologyCreationException e2) {

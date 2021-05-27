@@ -12,6 +12,9 @@ import concepts.TopConcept;
 import connectives.And;
 import connectives.Exists;
 import connectives.Forall;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.*;
+import preasoner.RoleTreeNode;
 import connectives.Geq;
 import connectives.Inclusion;
 import connectives.Leq;
@@ -19,52 +22,13 @@ import connectives.Negation;
 import connectives.Or;
 import formula.Formula;
 import individual.Individual;
-import roles.AtomicRole;
-import roles.BottomRole;
-import roles.RoleExpression;
-import roles.TopRole;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.semanticweb.HermiT.Reasoner;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
-import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
-import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
-import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
-import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
-import org.semanticweb.owlapi.model.OWLLogicalAxiom;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
-import org.semanticweb.owlapi.model.OWLObjectComplementOf;
-import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
-import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
-import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
-import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
-import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
-import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
-import org.semanticweb.owlapi.model.OWLObjectUnionOf;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
-import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import roles.*;
 
+import java.util.*;
+
+import javax.management.relation.Role;
 
 
 /**
@@ -75,8 +39,10 @@ public class Converter {
 	
 	public static Set<AtomicRole> TransitiveRole_Set = new HashSet<>();
 	public static Set<AtomicRole> IrreflexiveRole_Set = new HashSet<>();
-	public static String pre = null;
-	public static Map<AtomicRole, OWLObjectProperty> map1 = new HashMap<>();
+	public static Map<AtomicRole, OWLObjectProperty> RoleMap = new HashMap<>();
+	public static Map<AtomicConcept, OWLClass> ConceptMap = new HashMap<>();
+	public static Map<AtomicRole,RoleTreeNode> RoleNodeMap = new HashMap<>();
+	public static OWLOntology ontology = null;
 	public static OWLReasoner reasoner = null;
 	
 	private static int i = 0;
@@ -90,6 +56,23 @@ public class Converter {
 	private static int q = 0;
 	private static int r = 0;
 	private static int s = 0;
+
+	private OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+	private OWLDataFactory factory = manager.getOWLDataFactory();
+
+	public void CReset(){
+		TransitiveRole_Set.clear();
+		IrreflexiveRole_Set.clear();
+		RoleMap.clear();
+		ConceptMap.clear();
+		RoleNodeMap.clear();
+		RoleMap.put(TopRole.getInstance(),factory.getOWLTopObjectProperty());
+		RoleMap.put(BottomRole.getInstance(),factory.getOWLBottomObjectProperty());
+		RoleNodeMap.put(TopRole.getInstance(),new RoleTreeNode(TopRole.getInstance()));
+		RoleNodeMap.put(BottomRole.getInstance(),new RoleTreeNode(BottomRole.getInstance()));
+		reasoner = null;
+		ontology = null;
+	}
 		
 	public AtomicConcept getConceptfromClass(OWLEntity owlClass) {
 		return new AtomicConcept(owlClass.getIRI().toString());
@@ -164,9 +147,7 @@ public class Converter {
 		Set<AtomicRole> role_set = new HashSet<>();
 
 		for (OWLObjectProperty owlObjectProperty : op_set) {
-			AtomicRole role = getRoleFromObjectProperty(owlObjectProperty);
-			map1.put(role, owlObjectProperty);
-			role_set.add(role);
+			role_set.add(getRoleFromObjectProperty_ShortForm(owlObjectProperty));
 		}
 
 		return role_set;
@@ -189,7 +170,9 @@ public class Converter {
 		Set<OWLClass> class_set = ontology.getClassesInSignature();
 
 		for (OWLClass owlClass : class_set) {
-			concept_list.add(getConceptfromClass(owlClass));
+			AtomicConcept concept = getConceptfromClass(owlClass);
+			ConceptMap.put(concept,owlClass);
+			concept_list.add(concept);
 		}
 
 		return concept_list;
@@ -202,7 +185,7 @@ public class Converter {
 
 		for (OWLObjectProperty owlObjectProperty : op_set) {
 			AtomicRole role = getRoleFromObjectProperty(owlObjectProperty);
-			map1.put(role, owlObjectProperty);
+			RoleMap.put(role, owlObjectProperty);
 			role_list.add(role);
 		}
 
@@ -227,7 +210,9 @@ public class Converter {
 		Set<OWLClass> class_set = ontology.getClassesInSignature();
 
 		for (OWLClass owlClass : class_set) {
-			concept_list.add(getConceptfromClass_ShortForm(owlClass));
+			AtomicConcept concept = getConceptfromClass_ShortForm(owlClass);
+			ConceptMap.put(concept,owlClass);
+			concept_list.add(concept);
 		}
 
 		return concept_list;
@@ -237,10 +222,11 @@ public class Converter {
 
 		List<AtomicRole> role_list = new ArrayList<>();
 		Set<OWLObjectProperty> op_set = ontology.getObjectPropertiesInSignature();
-		
+
 		for (OWLObjectProperty owlObjectProperty : op_set) {
 			AtomicRole role = getRoleFromObjectProperty_ShortForm(owlObjectProperty);
-			map1.put(role, owlObjectProperty);
+			RoleNodeMap.put(role, new RoleTreeNode(role));
+			RoleMap.put(role, owlObjectProperty);
 			role_list.add(role);
 		}
 
@@ -260,9 +246,9 @@ public class Converter {
 	}
 
 	public List<Formula> OntologyConverter(OWLOntology ontology) {
-		
+
+		List<Formula> formula_list = new ArrayList<>();
 		reasoner = new Reasoner.ReasonerFactory().createReasoner(ontology);
-		List<Formula> formula_list = new ArrayList<>();		
 		Set<OWLLogicalAxiom> owlAxiom_set = ontology.getLogicalAxioms();
 
 		for (OWLAxiom owlAxiom : owlAxiom_set) {
@@ -272,11 +258,12 @@ public class Converter {
 		return formula_list;
 	}
 	
-	public List<Formula> OntologyConverter_ShortForm(OWLOntology ontology) {
-		
-		reasoner = new Reasoner.ReasonerFactory().createReasoner(ontology);
-		List<Formula> formula_list = new ArrayList<>();		
-		Set<OWLLogicalAxiom> owlAxiom_set = ontology.getLogicalAxioms();
+	public List<Formula> OntologyConverter_ShortForm(OWLOntology Ontology) {
+
+		List<Formula> formula_list = new ArrayList<>();
+		ontology = Ontology;
+		reasoner = new Reasoner.ReasonerFactory().createReasoner(Ontology);
+		Set<OWLLogicalAxiom> owlAxiom_set = Ontology.getLogicalAxioms();
 
 		for (OWLAxiom owlAxiom : owlAxiom_set) {
 			formula_list.addAll(AxiomConverter_ShortForm(owlAxiom));
@@ -458,8 +445,11 @@ public class Converter {
 		} else if (axiom instanceof OWLSubObjectPropertyOfAxiom) {
 			setO(getO() + 1);
 			OWLSubObjectPropertyOfAxiom owlSOPOA = (OWLSubObjectPropertyOfAxiom) axiom;
-			Formula converted = new Inclusion(RoleExpressionConverter_ShortForm(owlSOPOA.getSubProperty()),
-					RoleExpressionConverter_ShortForm(owlSOPOA.getSuperProperty()));
+			AtomicRole subrole = (AtomicRole) RoleExpressionConverter_ShortForm(owlSOPOA.getSubProperty());
+			AtomicRole superrole = (AtomicRole) RoleExpressionConverter_ShortForm(owlSOPOA.getSuperProperty());
+			Formula converted = new Inclusion(subrole,superrole);
+			RoleNodeMap.get(subrole).addparent(superrole);
+			RoleNodeMap.get(superrole).addchild(subrole);
 			return Collections.singletonList(converted);
 
 		} else if (axiom instanceof OWLEquivalentObjectPropertiesAxiom) {
@@ -474,8 +464,12 @@ public class Converter {
 			
 		} else if (axiom instanceof OWLTransitiveObjectPropertyAxiom) {
 			OWLTransitiveObjectPropertyAxiom owlOTOPA = (OWLTransitiveObjectPropertyAxiom) axiom;
-			TransitiveRole_Set.add((AtomicRole) RoleExpressionConverter_ShortForm(owlOTOPA.getProperty()));
-			return Collections.emptyList();
+			AtomicRole role = (AtomicRole) RoleExpressionConverter_ShortForm(owlOTOPA.getProperty());
+			TransitiveRole_Set.add(role);
+
+			List<Formula> converted = Collections.singletonList(new Trans(role));
+			return converted;
+			//return Collections.emptyList();
 			
 		} else if (axiom instanceof OWLIrreflexiveObjectPropertyAxiom) {
 			OWLIrreflexiveObjectPropertyAxiom owlIROPA = (OWLIrreflexiveObjectPropertyAxiom) axiom;
@@ -573,7 +567,6 @@ public class Converter {
 
 		} else if (concept instanceof OWLClass) {
 			OWLClass owlClass = (OWLClass) concept;
-			pre = owlClass.getIRI().getStart();
 			return new AtomicConcept(owlClass.getIRI().getShortForm());
 
 		} else if (concept instanceof OWLObjectComplementOf) {

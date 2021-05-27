@@ -1,9 +1,8 @@
 package inference;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -11,14 +10,15 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
-import org.semanticweb.owlapi.model.PrefixManager;
-import org.semanticweb.owlapi.util.DefaultPrefixManager;
+
 
 import checkexistence.EChecker;
 import checkfrequency.FChecker;
 import concepts.AtomicConcept;
 import concepts.BottomConcept;
 import concepts.TopConcept;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import preasoner.RoleTreeNode;
 import roles.AtomicRole;
 import roles.BottomRole;
 import roles.TopRole;
@@ -34,6 +34,9 @@ import convertion.BackConverter;
 import convertion.Converter;
 import formula.Formula;
 import individual.Individual;
+import swing.LoadButtonListener;
+import forgetting.Forgetter;
+import Exception.CyclicCaseException;
 
 public class Inferencer {
 	
@@ -63,69 +66,60 @@ public class Inferencer {
 	
 	
 	public List<Formula> combination_A(AtomicConcept concept, List<Formula> formula_list)
-			throws CloneNotSupportedException {
+			throws CloneNotSupportedException {  //for SHQ
+		//System.out.println("comb");
 		
 		//System.out.println("combine formula_list = " + formula_list);
-
 		List<Formula> output_list = new ArrayList<>();
 				
 		// C or A
 		List<Formula> positive_star_premises = new ArrayList<>();
-		// C or >m r.(A or k1)
+		// C or >m r.((A and E) or D)
 		List<Formula> positive_Geq_premises = new ArrayList<>();
-		// C or <m r.(~A or k3)
+		// C or <m r.((~A and E) or D)
 		List<Formula> positive_Leq_premises = new ArrayList<>();
+
+
 		// C or ~A
 		List<Formula> negative_star_premises = new ArrayList<>();
-		// C or >m r.(~A or k2)
+		// C or >m r.((~A and F) or G)
 		List<Formula> negative_Geq_premises = new ArrayList<>();
-		// C or <m r.(A or k4)
+		// C or <m r.((A and F) or G)
 		List<Formula> negative_Leq_premises = new ArrayList<>();
 
 
+
+
 		EChecker ec = new EChecker();
+		FChecker fc = new FChecker();
 		Simplifier simp = new Simplifier();
 
 		for (Formula formula : formula_list) {
 			//If concept is not present in formula, then formula is directly put into the output_list. 
 			if (!ec.isPresent(concept, formula)) {
 				output_list.add(formula);
-            //if formula has the form C or A, where C is the bottom concept (false)
+				//if formula has the form C or A, where C is the bottom concept (false)
 			} else if (formula.equals(concept)) {
 				positive_star_premises.add(formula);
-			//if formula has the form C or ~A, where C is the bottom concept (false)
+				//if formula has the form C or ~A, where C is the bottom concept (false)
+			} else if ((fc.positive(concept, formula) + fc.negative(concept, formula)) == 2
+					&& DefinerIntroducer.cyclic_definer_set.contains(concept)) {
+				positive_Leq_premises.add(formula);
 			} else if (formula.equals(new Negation(concept))) {
 				negative_star_premises.add(formula);
-			
-			} else if (formula instanceof Geq && formula.getSubFormulas().get(1).equals(concept)) {
+
+			} else if (formula instanceof Geq && fc.positive(concept, formula) == 1) {
 				positive_Geq_premises.add(formula);
 
-			} else if (formula instanceof Geq && formula.getSubFormulas().get(1) instanceof Or
-					&& formula.getSubFormulas().get(1).getSubFormulas().contains(concept)) {
-				positive_Geq_premises.add(formula);
-				
-			} else if (formula instanceof Leq && formula.getSubFormulas().get(1).equals(new Negation(concept))) {
+			} else if (formula instanceof Leq && fc.positive(concept, formula) == 1) {
 				positive_Leq_premises.add(formula);
 
-			} else if (formula instanceof Leq && formula.getSubFormulas().get(1) instanceof Or 
-					&& formula.getSubFormulas().get(1).getSubFormulas().contains(new Negation(concept))) {
-				positive_Leq_premises.add(formula);
-				
-			} else if (formula instanceof Geq && formula.getSubFormulas().get(1).equals(new Negation(concept))) {
+			} else if (formula instanceof Geq && fc.negative(concept, formula) == 1) {
 				negative_Geq_premises.add(formula);
 
-			} else if (formula instanceof Geq && formula.getSubFormulas().get(1) instanceof Or
-					&& formula.getSubFormulas().get(1).getSubFormulas().contains(new Negation(concept))) {
-				negative_Geq_premises.add(formula);
-				
-			} else if (formula instanceof Leq && formula.getSubFormulas().get(1).equals(concept)) {
+			} else if (formula instanceof Leq && fc.negative(concept,formula) == 1){
 				negative_Leq_premises.add(formula);
-
-			} else if (formula instanceof Leq && formula.getSubFormulas().get(1) instanceof Or
-					&& formula.getSubFormulas().get(1).getSubFormulas().contains(concept)) {
-				negative_Leq_premises.add(formula);
-				
-			} else if (formula instanceof Or) {
+			}else if (formula instanceof Or) {
 				
 				List<Formula> disjunct_list = formula.getSubFormulas();
 
@@ -137,39 +131,19 @@ public class Inferencer {
 			
 				} else {
 					for (Formula disjunct : disjunct_list) {
-						if (disjunct instanceof Geq && disjunct.getSubFormulas().get(1).equals(concept)) {
+						if (disjunct instanceof Geq && fc.positive(concept, disjunct) == 1) {
 							positive_Geq_premises.add(formula);
 							break;
 
-						} else if (disjunct instanceof Geq && disjunct.getSubFormulas().get(1) instanceof Or
-								&& disjunct.getSubFormulas().get(1).getSubFormulas().contains(concept)) {
-							positive_Geq_premises.add(formula);
-							break;
-							
-						} else if (disjunct instanceof Leq && disjunct.getSubFormulas().get(1).equals(new Negation(concept))) {
-							positive_Leq_premises.add(formula);
-							break;
-
-						} else if (disjunct instanceof Leq && disjunct.getSubFormulas().get(1) instanceof Or 
-								&& disjunct.getSubFormulas().get(1).getSubFormulas().contains(new Negation(concept))) {
+						} else if (disjunct instanceof Leq && fc.positive(concept, disjunct) == 1) {
 							positive_Leq_premises.add(formula);
 							break;
 							
-						} else if (disjunct instanceof Geq && disjunct.getSubFormulas().get(1).equals(new Negation(concept))) {
+						} else if (disjunct instanceof Geq && fc.negative(concept, disjunct) == 1) {
 							negative_Geq_premises.add(formula);
 							break;
 
-						} else if (disjunct instanceof Geq && disjunct.getSubFormulas().get(1) instanceof Or
-								&& disjunct.getSubFormulas().get(1).getSubFormulas().contains(new Negation(concept))) {
-							negative_Geq_premises.add(formula);
-							break;
-							
-						} else if (disjunct instanceof Leq && disjunct.getSubFormulas().get(1).equals(concept)) {
-							negative_Leq_premises.add(formula);
-							break;
-
-						} else if (disjunct instanceof Leq && disjunct.getSubFormulas().get(1) instanceof Or
-								&& disjunct.getSubFormulas().get(1).getSubFormulas().contains(concept)) {
+						} else if (disjunct instanceof Leq && fc.negative(concept, disjunct) == 1) {
 							negative_Leq_premises.add(formula);
 							break;
 							
@@ -188,10 +162,8 @@ public class Inferencer {
 		//System.out.println("negative_star_premises = " + negative_star_premises);
 		//System.out.println("negative_Geq_premises = " + negative_Geq_premises);
 		//System.out.println("negative_Leq_premises = " + negative_Leq_premises);
-		
-		//
-		//[6]
-		if (!negative_star_premises.isEmpty()) {  // 1,4,7
+
+		if (!negative_star_premises.isEmpty()) {  // 1,4,7,11
 			
 			if (negative_star_premises.contains(new Negation(concept))) {
 				
@@ -207,7 +179,14 @@ public class Inferencer {
 				}
 				if (!positive_Leq_premises.isEmpty()) {
 					for (Formula plp_premise : positive_Leq_premises) {
-						output_list.add(AckermannReplace(concept, plp_premise, BottomConcept.getInstance()));
+						if ((fc.positive(concept,plp_premise)+fc.negative(concept,plp_premise))==2
+								&& DefinerIntroducer.cyclic_definer_set.contains(concept)){
+							Formula res = DefinerIntroducer.Cyclic_map.get(concept).clone();
+							res.getSubFormulas().get(1).getSubFormulas().set(1,TopConcept.getInstance());
+							output_list.add(res);
+						} else {
+							output_list.add(AckermannReplace(concept, plp_premise, BottomConcept.getInstance()));
+						}
 					}
 				}
 				
@@ -277,10 +256,18 @@ public class Inferencer {
 				}	
 				if (!positive_Leq_premises.isEmpty()) {
 					
-					for (Formula ped_premise : positive_Leq_premises) {
-						output_list.add(AckermannReplace(concept, ped_premise, new Negation(ns_def_or)));
+					for (Formula plp_premise : positive_Leq_premises) {
+
+						if ((fc.positive(concept,plp_premise)+fc.negative(concept,plp_premise))==2
+								&& DefinerIntroducer.cyclic_definer_set.contains(concept)){
+							Formula res = DefinerIntroducer.Cyclic_map.get(concept).clone();
+							res.getSubFormulas().get(1).getSubFormulas().set(1,ns_def_or);
+							output_list.add(res);
+						} else {
+							output_list.add(AckermannReplace(concept, plp_premise, new Negation(ns_def_or)));
+						}
 					}
-				}	
+				}
 			}
 		}
 
@@ -299,7 +286,6 @@ public class Inferencer {
 						output_list.add(AckermannReplace(concept, ned_premise, TopConcept.getInstance()));
 					}
 				}
-				
 				
 			} else {
 				
@@ -369,11 +355,31 @@ public class Inferencer {
 			
 			if(!positive_Geq_premises.isEmpty()) {
 				
-				if(negative_star_premises.isEmpty() || positive_star_premises.isEmpty()) {
-					for (Formula pgp_premise : positive_Geq_premises) {
+
+				for (Formula pgp_premise : positive_Geq_premises) {
+					for (Formula ngp_premise : negative_Geq_premises){
+						List<Formula> ngp_frac_list = new ArrayList<>();
 						List<Formula> pgp_frac_list = new ArrayList<>();
+						Geq ngp_geq = null;
 						Geq pgp_geq = null;
-						
+						if (ngp_premise instanceof Geq) {
+							ngp_frac_list.add(BottomConcept.getInstance());
+							ngp_geq = (Geq) ngp_premise.clone();
+						} else {
+							List<Formula> ngp_disjunct_list = new ArrayList<>(ngp_premise.getSubFormulas());
+							//System.out.println("式子是：   "+ngp_premise);
+							for (Formula ngp_disjunct : ngp_disjunct_list) {
+								if (ec.isPresent(concept, ngp_disjunct)) {
+									ngp_geq = (Geq) ngp_disjunct.clone();
+
+								} else {
+									ngp_frac_list.add(ngp_disjunct);
+								}
+
+							}
+						}
+
+
 						if (pgp_premise instanceof Geq) {
 							pgp_frac_list.add(BottomConcept.getInstance());
 							pgp_geq = (Geq) pgp_premise.clone();
@@ -382,86 +388,41 @@ public class Inferencer {
 							for (Formula pgp_disjunct : pgp_disjunct_list) {
 								if (ec.isPresent(concept, pgp_disjunct)) {
 									pgp_geq = (Geq) pgp_disjunct.clone();
-									
+
 								} else {
 									pgp_frac_list.add(pgp_disjunct);
 								}
+
 							}
 						}
-						
-						
-						for (Formula ngp_premise : negative_Geq_premises) {
-							List<Formula> ngp_frac_list = new ArrayList<>();
-							Geq ngp_geq = null;
-							
-							if (ngp_premise instanceof Geq) {
-								ngp_frac_list.add(BottomConcept.getInstance());
-								ngp_geq = (Geq) ngp_premise.clone();
-							} else {
-								List<Formula> ngp_disjunct_list = new ArrayList<>(ngp_premise.getSubFormulas());
-								for (Formula ngp_disjunct : ngp_disjunct_list) {
-									if (ec.isPresent(concept, ngp_disjunct)) {
-										ngp_geq = (Geq) ngp_disjunct.clone();
-										
-									} else {
-										ngp_frac_list.add(ngp_disjunct);
-									}
-									
-								}
-							}
-							
-							
-							//****************************************
-							//if (ngp_geq.getSubFormulas().get(0).equals(pgp_geq.getSubFormulas().get(0))) {
-							OWLAxiom oa1 = getRoleSubAxiom(ngp_geq.getSubFormulas().get(0), 
-									pgp_geq.getSubFormulas().get(0));
-							OWLAxiom oa2 = getRoleSubAxiom(pgp_geq.getSubFormulas().get(0), 
-									ngp_geq.getSubFormulas().get(0));
-							Boolean combine_flag = false;
-							Formula com_r = null;
-							if(Converter.reasoner.isEntailed(oa1)) {
-								combine_flag = true;
-								com_r = pgp_geq.getSubFormulas().get(0);
-							} else if (Converter.reasoner.isEntailed(oa2)) {
-								combine_flag = true;
-								com_r = ngp_geq.getSubFormulas().get(0);
-							}
-							
-							
-							if (combine_flag) {
-								Integer n1 = Math.max(ngp_geq.get_num(),pgp_geq.get_num());
-								Integer n2 = Math.min(ngp_geq.get_num(), pgp_geq.get_num());
-								List<Formula> or_list = new ArrayList<>();
-								Formula k12 = null;
-								if (ngp_geq.getSubFormulas().get(1) instanceof Or) {
-									or_list.addAll(ngp_geq.getSubFormulas().get(1).getSubFormulas());
-									or_list.remove(new Negation(concept));
-								}
-								if (pgp_geq.getSubFormulas().get(1) instanceof Or) {
-									or_list.addAll(pgp_geq.getSubFormulas().get(1).getSubFormulas());
-									or_list.remove(concept);
-								}
-								if (or_list.isEmpty()) {
-									k12 = BottomConcept.getInstance();
-								} else if (or_list.size() == 1) {
-									k12 = or_list.get(0);
-								} else {
-									k12 = new Or(or_list);
-								}
-								
-								
-								for(int i = 1;i <= n2;i++) {
-									List<Formula> res_list = new ArrayList<>();
-									res_list.addAll(pgp_frac_list);
-									res_list.addAll(ngp_frac_list);
-									res_list.add(new Geq(n1+i,com_r,TopConcept.getInstance()));
-									res_list.add(new Geq(n2+1-i,com_r,k12));
-									output_list.add(new Or(res_list));
-								}
+
+						Boolean combine_flag = false;
+						Formula com_r = null;
+						if(getsubRoles((AtomicRole) pgp_geq.getSubFormulas().get(0),new HashSet<AtomicRole>()).contains(ngp_geq.getSubFormulas().get(0))) {
+							combine_flag = true;
+							com_r = pgp_geq.getSubFormulas().get(0);
+						} else if (getsubRoles((AtomicRole) ngp_geq.getSubFormulas().get(0),new HashSet<AtomicRole>()).contains(pgp_geq.getSubFormulas().get(0))) {
+							combine_flag = true;
+							com_r = ngp_geq.getSubFormulas().get(0);
+						}
+						if (combine_flag){
+							List<Formula> element_pgp = get_E_D(concept,pgp_geq);
+							List<Formula> element_ngp = get_E_D(concept,ngp_geq);
+							int n1 = Math.max(ngp_geq.get_num(),pgp_geq.get_num());
+							int n2 = Math.max(ngp_geq.get_num(),pgp_geq.get_num());
+							for (int i=1;i<=n2;i++){
+								List<Formula> res_list = new ArrayList<>();
+								res_list.addAll(pgp_frac_list);
+								res_list.addAll(ngp_frac_list);
+								res_list.add(new Geq(n1+n2+1-i,com_r,new Or(element_ngp.get(0),element_ngp.get(1),element_pgp.get(0),element_pgp.get(1))));
+								res_list.add(new Geq(i,com_r,new And(new Or(element_pgp.get(1), element_pgp.get(0)),
+										new Or(element_pgp.get(1),element_ngp.get(1)),new Or(element_ngp.get(0),element_ngp.get(1)))));
+								output_list.add(new Or(res_list));
 							}
 						}
 					}
 				}
+
 				
 				if (negative_star_premises.isEmpty()) {
 					for(Formula pgp_premise : positive_Geq_premises) {
@@ -478,105 +439,69 @@ public class Inferencer {
 			}
 			
 			if(!positive_Leq_premises.isEmpty()) {
-				
-				if(positive_star_premises.isEmpty() || negative_star_premises.isEmpty()) {
-					
-					for(Formula ngp_premise : negative_Geq_premises) {
-						for(Formula plp_premise : positive_Leq_premises) {
-							List<Formula> ngp_frac_list = new ArrayList<>();
-							Geq ngp_geq = null;
-							
-							if (ngp_premise instanceof Geq) {
-								ngp_frac_list.add(BottomConcept.getInstance());
-								ngp_geq = (Geq) ngp_premise.clone();
-							} else {
-								List<Formula> ngp_disjunct_list = new ArrayList<>(ngp_premise.getSubFormulas());
-								for (Formula ngp_disjunct : ngp_disjunct_list) {
-									if (ec.isPresent(concept, ngp_disjunct)) {
-										ngp_geq = (Geq) ngp_disjunct.clone();
-										
-									} else {
-										ngp_frac_list.add(ngp_disjunct);
-									}
-									
-								}
-							}
-							
-							List<Formula> plp_frac_list = new ArrayList<>();
-							Leq plp_leq = null;
-							
-							if (plp_premise instanceof Leq) {
-								plp_frac_list.add(BottomConcept.getInstance());
-								plp_leq = (Leq) plp_premise.clone();
-							} else {
-								List<Formula> plp_disjunct_list = new ArrayList<>(plp_premise.getSubFormulas());
-								for (Formula plp_disjunct : plp_disjunct_list) {
-									if (ec.isPresent(concept, plp_disjunct)) {
-										plp_leq = (Leq) plp_disjunct.clone();
-										
-									} else {
-										plp_frac_list.add(plp_disjunct);
-									}
-									
-								}
-							}
-							
-							//****************************************
-							//if (plp_leq.getSubFormulas().get(0).equals(ngp_geq.getSubFormulas().get(0)) &&
-							//		ngp_geq.get_num() >= plp_leq.get_num()) {
-							
-							
-							OWLAxiom oa1 = getRoleSubAxiom(ngp_geq.getSubFormulas().get(0), 
-									plp_leq.getSubFormulas().get(0));
-							Boolean combine_flag = false;
-							Formula com_r = null;
-							if(Converter.reasoner.isEntailed(oa1)) {
-								combine_flag = true;
-								com_r = ngp_geq.getSubFormulas().get(0);
-							} 
-							
-							if (combine_flag&&(ngp_geq.get_num() >= plp_leq.get_num())){
-								List<Formula> and_list = new ArrayList<>();
-								List<Formula> tmp_list = new ArrayList<>();
-								List<Formula> res_list = new ArrayList<>();
- 								Formula k23 = null;
-								Formula k2 = null;
-								Formula k3 = null;
-								if (plp_leq.getSubFormulas().get(1).equals(new Negation(concept))) {
-									k3 = BottomConcept.getInstance();
+				for(Formula ngp_premise : negative_Geq_premises) {
+					for(Formula plp_premise : positive_Leq_premises) {
+						List<Formula> ngp_frac_list = new ArrayList<>();
+						Geq ngp_geq = null;
+
+						if (ngp_premise instanceof Geq) {
+							ngp_frac_list.add(BottomConcept.getInstance());
+							ngp_geq = (Geq) ngp_premise.clone();
+						} else {
+							List<Formula> ngp_disjunct_list = new ArrayList<>(ngp_premise.getSubFormulas());
+							for (Formula ngp_disjunct : ngp_disjunct_list) {
+								if (ec.isPresent(concept, ngp_disjunct)) {
+									ngp_geq = (Geq) ngp_disjunct.clone();
+
 								} else {
-									tmp_list = plp_leq.getSubFormulas().get(1).getSubFormulas();
-									tmp_list.remove(new Negation(concept));
-									if (tmp_list.size() == 1) {
-										k3 = tmp_list.get(0);
-									} else {
-										k3 = new Or(tmp_list);
-									}
+									ngp_frac_list.add(ngp_disjunct);
 								}
-								
-								if (ngp_geq.getSubFormulas().get(1).equals(new Negation(concept))) {
-									k2 = BottomConcept.getInstance();
-								} else {
-									tmp_list = ngp_geq.getSubFormulas().get(1).getSubFormulas();
-									tmp_list.remove(new Negation(concept));
-									if (tmp_list.size() == 1) {
-										k2 = tmp_list.get(0);
-									} else {
-										k2 = new Or(tmp_list);
-									}
-								}
-								and_list.add(k2);
-								and_list.add(new Negation(k3));
-								res_list.addAll(plp_frac_list);
-								res_list.addAll(ngp_frac_list);
-								res_list.add(new Geq(ngp_geq.get_num()-plp_leq.get_num(),com_r,new And(and_list)));
-								output_list.add(new Or(res_list));
+
 							}
-							
-							
 						}
+
+						List<Formula> plp_frac_list = new ArrayList<>();
+						Leq plp_leq = null;
+
+						if (plp_premise instanceof Leq) {
+							plp_frac_list.add(BottomConcept.getInstance());
+							plp_leq = (Leq) plp_premise.clone();
+						} else {
+							List<Formula> plp_disjunct_list = new ArrayList<>(plp_premise.getSubFormulas());
+							for (Formula plp_disjunct : plp_disjunct_list) {
+								if (ec.isPresent(concept, plp_disjunct) && plp_disjunct instanceof Leq) {
+									plp_leq = (Leq) plp_disjunct.clone();
+
+								} else {
+									plp_frac_list.add(plp_disjunct);
+								}
+
+							}
+						}
+
+
+						Boolean combine_flag = false;
+						Formula com_r = null;
+						if(getsubRoles((AtomicRole) plp_leq.getSubFormulas().get(0),new HashSet<>()).contains(ngp_geq.getSubFormulas().get(0))) {
+							combine_flag = true;
+							com_r = ngp_geq.getSubFormulas().get(0);
+						}
+						if (combine_flag &&
+								ngp_geq.get_num() >= plp_leq.get_num()) {
+							List<Formula> element_plp = get_E_D(concept,plp_leq);
+							List<Formula> element_ngp = get_E_D(concept,ngp_geq);
+							List<Formula> res_list = new ArrayList<>();
+							res_list.addAll(plp_frac_list);
+							res_list.addAll(ngp_frac_list);
+							res_list.add(new Geq(ngp_geq.get_num()-plp_leq.get_num(),com_r,
+									new And(new Or(element_ngp.get(1),element_ngp.get(0)),new Or(element_ngp.get(1),new Negation(element_plp.get(0))),new Negation(element_plp.get(1)))));
+							output_list.add(new Or(res_list));
+						}
+
+
 					}
 				}
+
 				
 				if (positive_star_premises.isEmpty() && positive_Geq_premises.isEmpty()) {
 					for(Formula ngp_premise : negative_Geq_premises) {
@@ -592,108 +517,74 @@ public class Inferencer {
 				}
 				
 			}
+
 		}
 		
 		if (!positive_Geq_premises.isEmpty()) {
 			
 			if (!negative_Leq_premises.isEmpty()) {
-				if (positive_star_premises.isEmpty() || (negative_star_premises.isEmpty() && negative_Geq_premises.isEmpty())) {
-					for(Formula nlp_premise : negative_Leq_premises) {
-						for(Formula pgp_premise : positive_Geq_premises) {
-							List<Formula> pgp_frac_list = new ArrayList<>();
-							Geq pgp_geq = null;
-							
-							if (pgp_premise instanceof Geq) {
-								pgp_frac_list.add(BottomConcept.getInstance());
-								pgp_geq = (Geq) pgp_premise.clone();
-							} else {
-								List<Formula> pgp_disjunct_list = new ArrayList<>(pgp_premise.getSubFormulas());
-								for (Formula pgp_disjunct : pgp_disjunct_list) {
 
-									if (ec.isPresent(concept, pgp_disjunct)) {
-										pgp_geq = (Geq) pgp_disjunct.clone();
-										
-									} else {
-										pgp_frac_list.add(pgp_disjunct);
-									}
-									
-								}
-							}
-							
-							List<Formula> nlp_frac_list = new ArrayList<>();
-							Leq nlp_leq = null;
-							
-							if (nlp_premise instanceof Leq) {
-								nlp_frac_list.add(BottomConcept.getInstance());
-								nlp_leq = (Leq) nlp_premise.clone();
-							} else {
-								List<Formula> nlp_disjunct_list = new ArrayList<>(nlp_premise.getSubFormulas());
-								for (Formula nlp_disjunct : nlp_disjunct_list) {
-									if (ec.isPresent(concept, nlp_disjunct)) {
-										nlp_leq = (Leq) nlp_disjunct.clone();
-										
-									} else {
-										nlp_frac_list.add(nlp_disjunct);
-									}
-									
-								}
-							}
-							
-							//******************************
-							//if (nlp_leq.getSubFormulas().get(0).equals(pgp_geq.getSubFormulas().get(0)) &&
-							//		pgp_geq.get_num() >= nlp_leq.get_num()) {
-							
+				for(Formula nlp_premise : negative_Leq_premises) {
+					for(Formula pgp_premise : positive_Geq_premises) {
+						List<Formula> pgp_frac_list = new ArrayList<>();
+						Geq pgp_geq = null;
 
-							OWLAxiom oa1 = getRoleSubAxiom(pgp_geq.getSubFormulas().get(0), 
-									nlp_leq.getSubFormulas().get(0));
-							Boolean combine_flag = false;
-							Formula com_r = null;
-							if(Converter.reasoner.isEntailed(oa1)) {
-								combine_flag = true;
-								com_r = pgp_geq.getSubFormulas().get(0);
-							}
-							
+						if (pgp_premise instanceof Geq) {
+							pgp_frac_list.add(BottomConcept.getInstance());
+							pgp_geq = (Geq) pgp_premise.clone();
+						} else {
+							List<Formula> pgp_disjunct_list = new ArrayList<>(pgp_premise.getSubFormulas());
+							for (Formula pgp_disjunct : pgp_disjunct_list) {
 
-							if ((combine_flag) && (pgp_geq.get_num() >= nlp_leq.get_num())){
-								List<Formula> and_list = new ArrayList<>();
-								List<Formula> tmp_list = new ArrayList<>();
-								List<Formula> res_list = new ArrayList<>();
- 								Formula k14 = null;
-								Formula k1 = null;
-								Formula k4 = null;
-								if (nlp_leq.getSubFormulas().get(1).equals(concept)) {
-									k4 = BottomConcept.getInstance();
+								if (ec.isPresent(concept, pgp_disjunct)) {
+									pgp_geq = (Geq) pgp_disjunct.clone();
+
 								} else {
-									tmp_list = nlp_leq.getSubFormulas().get(1).getSubFormulas();
-									tmp_list.remove(concept);
-									if (tmp_list.size() == 1) {
-										k4 = tmp_list.get(0);
-									} else {
-										k4 = new Or(tmp_list);
-									}
+									pgp_frac_list.add(pgp_disjunct);
 								}
-								
-								if (pgp_geq.getSubFormulas().get(1).equals(concept)) {
-									k1 = BottomConcept.getInstance();
-								} else {
-									tmp_list = pgp_geq.getSubFormulas().get(1).getSubFormulas();
-									tmp_list.remove(concept);
-									if (tmp_list.size() == 1) {
-										k1 = tmp_list.get(0);
-									} else {
-										k1 = new Or(tmp_list);
-									}
-								}
-								and_list.add(k1);
-								and_list.add(new Negation(k4));
-								res_list.addAll(nlp_frac_list);
-								res_list.addAll(pgp_frac_list);
-								res_list.add(new Geq(pgp_geq.get_num()-nlp_leq.get_num(),com_r,new And(and_list)));
-								output_list.add(new Or(res_list));
+
 							}
+						}
+
+						List<Formula> nlp_frac_list = new ArrayList<>();
+						Leq nlp_leq = null;
+
+						if (nlp_premise instanceof Leq) {
+							nlp_frac_list.add(BottomConcept.getInstance());
+							nlp_leq = (Leq) nlp_premise.clone();
+						} else {
+							List<Formula> nlp_disjunct_list = new ArrayList<>(nlp_premise.getSubFormulas());
+							for (Formula nlp_disjunct : nlp_disjunct_list) {
+								if (ec.isPresent(concept, nlp_disjunct)) {
+									nlp_leq = (Leq) nlp_disjunct.clone();
+
+								} else {
+									nlp_frac_list.add(nlp_disjunct);
+								}
+
+							}
+						}
+
+						Boolean combine_flag = false;
+						Formula com_r = null;
+						if(getsubRoles((AtomicRole) nlp_leq.getSubFormulas().get(0),new HashSet<>()).contains(pgp_geq.getSubFormulas().get(0))) {
+							combine_flag = true;
+							com_r = pgp_geq.getSubFormulas().get(0);
+						}
+						if (combine_flag &&
+								pgp_geq.get_num() >= nlp_leq.get_num()) {
+							List<Formula> element_nlp = get_E_D(concept,nlp_leq);
+							List<Formula> element_pgp = get_E_D(concept,pgp_geq);
+							List<Formula> res_list = new ArrayList<>();
+							res_list.addAll(nlp_frac_list);
+							res_list.addAll(pgp_frac_list);
+							res_list.add(new Geq(pgp_geq.get_num()-nlp_leq.get_num(),com_r,
+									new And(new Or(element_pgp.get(1),element_pgp.get(0)),new Or(element_pgp.get(1),new Negation(element_nlp.get(0))),new Negation(element_nlp.get(1)))));
+							output_list.add(new Or(res_list));
 						}
 					}
 				}
+
 				
 				if (negative_star_premises.isEmpty() && negative_Geq_premises.isEmpty()) {
 					for(Formula pgp_premise : positive_Geq_premises) {
@@ -707,79 +598,74 @@ public class Inferencer {
 					}
 				}
 			}
-			
 		}
 		
 		if (!negative_Leq_premises.isEmpty()) {
 			if (!positive_Leq_premises.isEmpty()) {
-				if((positive_star_premises.isEmpty() && positive_Geq_premises.isEmpty()) ||
-						(negative_star_premises.isEmpty() && negative_Geq_premises.isEmpty())) {
-					for(Formula plp_premise : positive_Leq_premises) {
-						for(Formula nlp_premise : negative_Leq_premises) {
-							List<Formula> nlp_frac_list = new ArrayList<>();
-							Leq nlp_leq = null;
-							
-							if (nlp_premise instanceof Leq) {
-								nlp_frac_list.add(BottomConcept.getInstance());
-								nlp_leq = (Leq) nlp_premise.clone();
-							} else {
-								List<Formula> nlp_disjunct_list = new ArrayList<>(nlp_premise.getSubFormulas());
-								for (Formula nlp_disjunct : nlp_disjunct_list) {
-									if (ec.isPresent(concept, nlp_disjunct)) {
-										nlp_leq = (Leq) nlp_disjunct.clone();
-										
-									} else {
-										nlp_frac_list.add(nlp_disjunct);
-									}
-									
+
+				for(Formula plp_premise : positive_Leq_premises) {
+					for(Formula nlp_premise : negative_Leq_premises) {
+						List<Formula> nlp_frac_list = new ArrayList<>();
+						Leq nlp_leq = null;
+
+						if (nlp_premise instanceof Leq) {
+							nlp_frac_list.add(BottomConcept.getInstance());
+							nlp_leq = (Leq) nlp_premise.clone();
+						} else {
+							List<Formula> nlp_disjunct_list = new ArrayList<>(nlp_premise.getSubFormulas());
+							for (Formula nlp_disjunct : nlp_disjunct_list) {
+								if (ec.isPresent(concept, nlp_disjunct)) {
+									nlp_leq = (Leq) nlp_disjunct.clone();
+
+								} else {
+									nlp_frac_list.add(nlp_disjunct);
 								}
+
 							}
-							
-							List<Formula> plp_frac_list = new ArrayList<>();
-							Leq plp_leq = null;
-							
-							if (plp_premise instanceof Leq) {
-								plp_frac_list.add(BottomConcept.getInstance());
-								plp_leq = (Leq) plp_premise.clone();
-							} else {
-								List<Formula> plp_disjunct_list = new ArrayList<>(plp_premise.getSubFormulas());
-								for (Formula plp_disjunct : plp_disjunct_list) {
-									if (ec.isPresent(concept, plp_disjunct)) {
-										plp_leq = (Leq) plp_disjunct.clone();
-										
-									} else {
-										plp_frac_list.add(plp_disjunct);
-									}
-									
-								}
-							}
-							
-							//if (plp_leq.getSubFormulas().get(0).equals(nlp_leq.getSubFormulas().get(0))) {
-							OWLAxiom oa1 = getRoleSubAxiom(plp_leq.getSubFormulas().get(0), 
-									nlp_leq.getSubFormulas().get(0));
-							OWLAxiom oa2 = getRoleSubAxiom(nlp_leq.getSubFormulas().get(0), 
-									plp_leq.getSubFormulas().get(0));
-							Boolean combine_flag = false;
-							Formula com_r = null;
-							if(Converter.reasoner.isEntailed(oa1)) {
-								combine_flag = true;
-								com_r = nlp_leq.getSubFormulas().get(0);
-							} else if (Converter.reasoner.isEntailed(oa2)) {
-								combine_flag = true;
-								com_r = plp_leq.getSubFormulas().get(0);
-							}
-							
-							if (combine_flag) {
-								List<Formula> res_list = new ArrayList<>();
-								res_list.addAll(plp_frac_list);
-								res_list.addAll(nlp_frac_list);
-								res_list.add(new Leq(plp_leq.get_num()+nlp_leq.get_num(),com_r,TopConcept.getInstance()));
-								output_list.add(new Or(res_list));
-							}
-							
 						}
+
+						List<Formula> plp_frac_list = new ArrayList<>();
+						Leq plp_leq = null;
+
+						if (plp_premise instanceof Leq) {
+							plp_frac_list.add(BottomConcept.getInstance());
+							plp_leq = (Leq) plp_premise.clone();
+						} else {
+							List<Formula> plp_disjunct_list = new ArrayList<>(plp_premise.getSubFormulas());
+							for (Formula plp_disjunct : plp_disjunct_list) {
+								if (ec.isPresent(concept, plp_disjunct) && plp_disjunct instanceof Leq) {
+									plp_leq = (Leq) plp_disjunct.clone();
+
+								} else {
+									plp_frac_list.add(plp_disjunct);
+								}
+
+							}
+						}
+
+						Boolean combine_flag = false;
+						Formula com_r = null;
+						if(getsubRoles((AtomicRole) nlp_leq.getSubFormulas().get(0),new HashSet<AtomicRole>()).contains(plp_leq.getSubFormulas().get(0))) {
+							combine_flag = true;
+							com_r = nlp_leq.getSubFormulas().get(0);
+						} else if (getsubRoles((AtomicRole) plp_leq.getSubFormulas().get(0),new HashSet<AtomicRole>()).contains(nlp_leq.getSubFormulas().get(0))) {
+							combine_flag = true;
+							com_r = plp_leq.getSubFormulas().get(0);
+						}
+						if (combine_flag) {
+							List<Formula> res_list = new ArrayList<>();
+							List<Formula> element_nlp = get_E_D(concept,nlp_leq);
+							List<Formula> element_plp = get_E_D(concept,plp_leq);
+							res_list.addAll(plp_frac_list);
+							res_list.addAll(nlp_frac_list);
+							res_list.add(new Leq(plp_leq.get_num()+nlp_leq.get_num(),com_r,
+									new Or(element_plp.get(1),element_nlp.get(1),new And(element_nlp.get(0),element_plp.get(0)))));
+							output_list.add(new Or(res_list));
+						}
+
 					}
 				}
+
 				
 				if (positive_star_premises.isEmpty() && positive_Geq_premises.isEmpty()) {
 					for(Formula nlp_premise : negative_Leq_premises) {
@@ -794,7 +680,6 @@ public class Inferencer {
 				}
 			}
 		}
-
 
 		return output_list;
 	}
@@ -1079,13 +964,39 @@ public class Inferencer {
 			}
 		}
 
-		//
-		if (!positive_TBox_premises.isEmpty() && !negative_TBox_premises.isEmpty()) {
-			
-			Simplifier simp = new Simplifier();
 
+		if (!positive_TBox_premises.isEmpty() && !negative_TBox_premises.isEmpty()) {
+			List<Formula> output_1 = new ArrayList<>();
+			Simplifier simp = new Simplifier();
+			BackConverter bc = new BackConverter();
 			if (positive_RBox_premises.isEmpty() || negative_RBox_premises.isEmpty()) {
-				BackConverter bc = new BackConverter();
+				List<Formula> p_frag = get_fragment(positive_TBox_premises,role);
+				List<Formula> n_frag = get_fragment(negative_TBox_premises,role);
+				//p_frag.addAll(n_frag);
+				/*
+				List<List<Formula>> p_list_list = getCombinations(p_frag);
+				List<List<Formula>> n_list_list = getCombinations(n_frag);
+				System.out.println(p_list_list.size()+"k");
+				System.out.println(n_list_list.size()+"j");
+				int ij =0;
+				for (List<Formula> p_list : p_list_list){
+					for (List<Formula> n_list : n_list_list){
+						System.out.println(ij++);
+						List<Formula> p_plus_n = new ArrayList<>();
+						boolean istautology = false;
+						p_plus_n.addAll(p_list);
+						p_plus_n.addAll(n_list);
+						Formula res = simp.getSimplifiedForm(new Or(p_plus_n));
+
+						if (!istautology){
+							output_1.add(res);
+						}
+
+					}
+				}*/
+				output_list.addAll(speedup1(p_frag, n_frag));
+
+				/*
 				for(Formula pt_premise : positive_TBox_premises) {
 					
 					for(Formula nt_premise : negative_TBox_premises) {
@@ -1123,11 +1034,9 @@ public class Inferencer {
 								
 							}
 						}
-						List<Formula> or_list = new ArrayList<>();
-						or_list.add(new Negation(pt_geq.getSubFormulas().get(1)));
-						or_list.add(nt_leq.getSubFormulas().get(1));
-						Formula flag = simp.getSimplifiedForm(new Or(or_list));
-						if (pt_geq.get_num() > nt_leq.get_num() && flag.equals(TopConcept.getInstance())) {
+
+						if (pt_geq.get_num() > nt_leq.get_num() &&
+								isSubsume(pt_geq.getSubFormulas().get(1),nt_leq.getSubFormulas().get(1))) {
 							if(frac_list.size() == 1) {
 								output_list.add(frac_list.get(0));
 							} else {
@@ -1135,7 +1044,7 @@ public class Inferencer {
 							}
 						}
 					}
-				}
+				}*/
 			}
 		} 
 		
@@ -1328,6 +1237,12 @@ public class Inferencer {
 		if (toBeReplaced instanceof AtomicConcept) {
 			return new AtomicConcept(toBeReplaced.getText());
 
+		} else if (toBeReplaced instanceof TopRole){
+			return TopRole.getInstance();
+
+		} else if (toBeReplaced instanceof BottomRole){
+			return BottomRole.getInstance();
+
 		} else if (toBeReplaced instanceof AtomicRole) {
 			return toBeReplaced.equals(role) ? definition : new AtomicRole(toBeReplaced.getText());
 
@@ -1381,6 +1296,12 @@ public class Inferencer {
 		if (toBeReplaced instanceof AtomicConcept) {
 			return toBeReplaced.equals(concept) ? definition : new AtomicConcept(toBeReplaced.getText());
 			
+		} else if (toBeReplaced instanceof TopRole){
+			return TopRole.getInstance();
+
+		} else if (toBeReplaced instanceof BottomRole){
+			return BottomRole.getInstance();
+
 		} else if (toBeReplaced instanceof AtomicRole) {
 			return new AtomicRole(toBeReplaced.getText());
 
@@ -1522,7 +1443,13 @@ public class Inferencer {
 		if (formula instanceof AtomicConcept) {
 			return formula.equals(concept) ? TopConcept.getInstance() : new AtomicConcept(formula.getText());
 			
-		} else if (formula instanceof AtomicRole) {
+		} else if (formula instanceof TopRole){
+			return TopRole.getInstance();
+
+		} else if (formula instanceof BottomRole){
+			return BottomRole.getInstance();
+
+		}else if (formula instanceof AtomicRole) {
 			return new AtomicRole(formula.getText());
 
 		} else if (formula instanceof Individual) {
@@ -1565,6 +1492,12 @@ public class Inferencer {
 
 		if (formula instanceof AtomicConcept) {
 			return formula.equals(concept) ? BottomConcept.getInstance() : new AtomicConcept(formula.getText());
+
+		} else if (formula instanceof TopRole){
+			return TopRole.getInstance();
+
+		} else if (formula instanceof BottomRole){
+			return BottomRole.getInstance();
 
 		} else if (formula instanceof AtomicRole) {
 			return new AtomicRole(formula.getText());
@@ -1662,26 +1595,332 @@ public class Inferencer {
 		return input_list;
 		
 	}
-	
-	public static OWLAxiom getRoleSubAxiom(String pre, String r, String s) {
-		OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-		PrefixManager prefix = new DefaultPrefixManager(
-				pre);
-		OWLDataFactory df = man.getOWLDataFactory();
-		OWLObjectProperty rr = df.getOWLObjectProperty(r, prefix);
-		OWLObjectProperty ss = df.getOWLObjectProperty(s, prefix);
-		OWLAxiom OSP =df.getOWLSubObjectPropertyOfAxiom(rr, ss);
-		return OSP;
+
+
+	public static List<Formula> get_E_D(AtomicConcept concept,Formula formula){
+		FChecker fc = new FChecker();
+		EChecker ec = new EChecker();
+		Formula E = null;
+		Formula D = null;
+		Formula R = null;
+		List<Formula> output = new ArrayList<>();
+		if (formula instanceof Geq || formula instanceof Leq){
+			R = formula.getSubFormulas().get(0);
+			Formula operand = formula.getSubFormulas().get(1);
+			if (operand.equals(concept) || operand.equals(new Negation(concept))){
+				E = TopConcept.getInstance();
+				D = BottomConcept.getInstance();
+			} else if (operand instanceof And && operand.getSubFormulas().contains(concept)){
+				List<Formula> conjunct_list = new ArrayList<>(operand.getSubFormulas());
+				conjunct_list.remove(concept);
+				if (conjunct_list.size()==1){
+					E = conjunct_list.get(0);
+				} else {
+					E = new And(conjunct_list);
+				}
+				D = BottomConcept.getInstance();
+
+			} else if (operand instanceof And && operand.getSubFormulas().contains(new Negation(concept))){
+				List<Formula> conjunct_list = new ArrayList<>(operand.getSubFormulas());
+				conjunct_list.remove(new Negation(concept));
+				if (conjunct_list.size()==1){
+					E = conjunct_list.get(0);
+				} else {
+					E = new And(conjunct_list);
+				}
+				D = BottomConcept.getInstance();
+
+			} else if (operand instanceof Or){
+				List<Formula> disjunct_list = new ArrayList<>(operand.getSubFormulas());
+				List<Formula> new_disjunct_list = new ArrayList<>();
+				for (Formula disjunct:disjunct_list){
+					if (fc.positive(concept,disjunct)==1){
+						if (disjunct instanceof And){
+							List<Formula> conjunct_list = new ArrayList<>(disjunct.getSubFormulas());
+							conjunct_list.remove(concept);
+							if (conjunct_list.size()==1){
+								E = conjunct_list.get(0);
+							} else {
+								E = new And(conjunct_list);
+							}
+						} else {
+							E = TopConcept.getInstance();
+						}
+					} else if (fc.negative(concept,disjunct)==1){
+						if (disjunct instanceof And){
+							List<Formula> conjunct_list = new ArrayList<>(disjunct.getSubFormulas());
+							conjunct_list.remove(new Negation(concept));
+							if (conjunct_list.size()==1){
+								E = conjunct_list.get(0);
+							} else {
+								E = new And(conjunct_list);
+							}
+						} else {
+							E = TopConcept.getInstance();
+						}
+					} else {
+						new_disjunct_list.add(disjunct);
+					}
+				}
+				if (new_disjunct_list.isEmpty()){
+					D = BottomConcept.getInstance();
+				} else if (new_disjunct_list.size()==1){
+					D = new_disjunct_list.get(0);
+				} else {
+					D = new Or(new_disjunct_list);
+				}
+			}
+			output.add(E);
+			output.add(D);
+			output.add(R);
+			return output;
+
+		} else {
+			List<Formula> disjunct_list = new ArrayList<>(formula.getSubFormulas());
+			for(Formula disjunct:disjunct_list){
+				if (ec.isPresent(concept,disjunct)){
+					output = get_E_D(concept,disjunct);
+					break;
+				}
+			}
+			return output;
+		}
 	}
-	
-	public static OWLAxiom getRoleSubAxiom(Formula role1, Formula role2) {
+
+	public OWLAxiom getRoleSubAxiom(Formula role1, Formula role2) {
 		OWLOntologyManager man = OWLManager.createOWLOntologyManager();
 
 		OWLDataFactory df = man.getOWLDataFactory();
-		OWLObjectProperty rr = Converter.map1.get(role1);
-		OWLObjectProperty ss = Converter.map1.get(role2);
+		OWLObjectProperty rr = Converter.RoleMap.get(role1);
+		OWLObjectProperty ss = Converter.RoleMap.get(role2);
 		OWLAxiom OSP =df.getOWLSubObjectPropertyOfAxiom(rr, ss);
 		return OSP;
 	}
+
+	public static Set<AtomicRole> getsubRoles(AtomicRole role, Set<AtomicRole> roleset){
+		LinkedList<RoleTreeNode> JuniorList = Converter.RoleNodeMap.get(role).getChildlist();
+		roleset.add(role);
+		if (JuniorList == null || JuniorList.isEmpty()){
+			return roleset;
+		} else {
+			for (RoleTreeNode srole : JuniorList){
+				if (!roleset.contains(srole.getrole())){
+					roleset.add(srole.getrole());
+					roleset.addAll(getsubRoles(srole.getrole(),roleset));
+				}
+			}
+			return roleset;
+		}
+	}
+
+	public static Set<AtomicRole> getsuperRoles(AtomicRole role, Set<AtomicRole> roleset){
+		LinkedList<RoleTreeNode> OlderList = Converter.RoleNodeMap.get(role).getParentlist();
+		roleset.add(role);
+		if (OlderList == null || OlderList.isEmpty()){
+			return roleset;
+		} else {
+			for (RoleTreeNode srole : OlderList){
+				if (!roleset.contains(srole.getrole())){
+					roleset.add(srole.getrole());
+					roleset.addAll(getsuperRoles(srole.getrole(),roleset));
+				}
+			}
+			return roleset;
+		}
+	}
+
+
+	public boolean isSubsume(Formula f1,Formula f2) throws CloneNotSupportedException {
+		OWLOntologyManager man = OWLManager.createOWLOntologyManager();
+		OWLDataFactory df = man.getOWLDataFactory();
+		OWLReasoner Dreasoner = new Reasoner.ReasonerFactory().createReasoner(Converter.ontology);
+		BackConverter bc = new BackConverter();
+		OWLAxiom a = df.getOWLSubClassOfAxiom(bc.toOWLClassExpression(f1),bc.toOWLClassExpression(f2));
+		return Dreasoner.isEntailed(a);
+	}
+
+
+
+	public List<Formula> get_fragment(List<Formula> inputList, AtomicRole role){
+		EChecker ec = new EChecker();
+		List<Formula> outputList = new ArrayList<>();
+		if (inputList.isEmpty()){
+			return outputList;
+		} else {
+			for (Formula formula :inputList){
+				if (formula instanceof Or){
+					List<Formula> disjunctList = new ArrayList<>(formula.getSubFormulas());
+					for (Formula disjunct : disjunctList){
+						if(ec.isPresent(role,disjunct)){
+							disjunctList.remove(disjunct);
+							break;
+						}
+					}
+					if(disjunctList.size()==1){
+						outputList.add(disjunctList.get(0));
+					} else {
+						outputList.add(new Or(disjunctList));
+					}
+
+				}
+			}
+			return outputList;
+		}
+	}
+
+	public List<Formula> RoleReplace_2(AtomicRole subrole, AtomicRole superrole, List<Formula> input_list) throws CyclicCaseException, CloneNotSupportedException {
+
+
+		List<Formula> output_list = new ArrayList<>();
+		List<Formula> negative_TBox_premises = new ArrayList<>();
+
+		EChecker ec = new EChecker();
+		FChecker fc = new FChecker();
+		Forgetter ft = new Forgetter();
+		for (Formula formula : input_list){
+			if (formula instanceof Leq && formula.getSubFormulas().get(0).equals(superrole)){
+				negative_TBox_premises.add(formula);
+			} else if (formula instanceof Or){
+				List<Formula> disjunct_list = formula.getSubFormulas();
+				for (Formula disjunct : disjunct_list){
+					if (disjunct instanceof Leq && disjunct.getSubFormulas().get(0).equals(superrole)){
+						negative_TBox_premises.add(formula);
+						break;
+					}
+				}
+			}
+		}
+
+		if (!negative_TBox_premises.isEmpty()){
+			for (Formula nt_premise : negative_TBox_premises) {
+				output_list.add(AckermannReplace(superrole, nt_premise, subrole));
+			}
+		}
+		output_list = ft.forget_definer(output_list);
+		return output_list;
+	}
+
+	public List<Formula> RoleReplace_3(AtomicRole subrole, AtomicRole superrole, List<Formula> input_list) throws CyclicCaseException, CloneNotSupportedException {
+
+
+		List<Formula> output_list = new ArrayList<>();
+		List<Formula> positive_TBox_premises = new ArrayList<>();
+
+		Forgetter ft = new Forgetter();
+		for (Formula formula : input_list){
+			if (formula instanceof Geq && formula.getSubFormulas().get(0).equals(subrole)){
+				positive_TBox_premises.add(formula);
+			} else if (formula instanceof Or){
+				List<Formula> disjunct_list = formula.getSubFormulas();
+				for (Formula disjunct : disjunct_list){
+					if (disjunct instanceof Geq && disjunct.getSubFormulas().get(0).equals(subrole)){
+						positive_TBox_premises.add(formula);
+						break;
+					}
+				}
+			}
+		}
+
+		if (!positive_TBox_premises.isEmpty()){
+			for (Formula pt_premise : positive_TBox_premises) {
+				output_list.add(AckermannReplace(subrole, pt_premise, superrole));
+			}
+		}
+		output_list = ft.forget_definer(output_list);
+		return output_list;
+	}
+
+	public List<Formula> speedup(List<Formula> input) throws CloneNotSupportedException {
+		List<Formula> output = new ArrayList<>();
+		if (input.isEmpty()){
+			return output;
+		}
+		Formula res;
+		if (input.size()==1){
+			res = input.get(0);
+		} else {
+			res = new Or(input);
+		}
+		if (!issatis(res)){
+			output.add(res);
+			for (Formula formula : input){
+				List<Formula> disjunctlist = new ArrayList<>(input);
+				disjunctlist.remove(formula);
+				output.addAll(speedup(disjunctlist));
+			}
+		}
+		return output;
+	}
+
+
+
+	public boolean issatis(Formula res) throws CloneNotSupportedException {
+		OWLReasoner Dreasoner = new Reasoner.ReasonerFactory().createReasoner(Converter.ontology);
+		BackConverter bc = new BackConverter();
+		System.out.println("start");
+		boolean s = Dreasoner.isSatisfiable(bc.toOWLClassExpression(new Negation(res)));
+		System.out.println("end");
+		return s;
+	}
+
+
+	public List<Formula> speedup1(List<Formula> input1, List<Formula> input2) throws CloneNotSupportedException {
+		List<Formula> output = new ArrayList<>();
+		if (input1.isEmpty() || input2.isEmpty()){
+			return output;
+		}
+		for (int i=0; i<input1.size();i++){
+			int size_i = output.size();
+			for(int j=0;j<input2.size();j++){
+				int size_j = output.size();
+				List<Formula> left = new ArrayList<>();
+				List<Formula> right = new ArrayList<>();
+				left.add(input1.get(i));
+				left.add(input2.get(j));
+				if (!issatis(new Or(left))){
+					output.add(new Or(left));
+				} else {
+					for (int k =i+1; k<input1.size();k++){
+						right.add(input1.get(k));
+					}
+					for (int k =j+1; k<input2.size();k++){
+						right.add(input2.get(k));
+					}
+					output.addAll(recursiveappend(left,right,0));
+
+				}
+				if (size_j==output.size()){
+					break;
+				}
+
+			}
+			if(size_i == output.size()){
+				break;
+			}
+		}
+
+		return output;
+	}
+
+	public List<Formula> recursiveappend(List<Formula> left, List<Formula> right, int j) throws CloneNotSupportedException {
+		List<Formula> output = new ArrayList<>();
+		for (int k=j;k<right.size();k++){
+			List<Formula> cur_left = new ArrayList<>(left);
+			cur_left.add(right.get(k));
+			int size_1 = output.size();
+			if (!issatis(new Or(cur_left))){
+				output.add(new Or(cur_left));
+				continue;
+			} else {
+				output.addAll(recursiveappend(cur_left, right, k+1));
+			}
+			if (size_1==output.size()){
+				break;
+			}
+		}
+		return output;
+	}
+
+	
 	
 }

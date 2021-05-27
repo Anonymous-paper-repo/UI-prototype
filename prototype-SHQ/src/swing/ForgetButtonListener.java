@@ -90,9 +90,9 @@ public class ForgetButtonListener implements ActionListener {
 
 		try {
 			long startTime = System.currentTimeMillis();
-			ontology = manager.loadOntologyFromOntologyDocument(new IRIDocumentSource(iri),
-					new OWLOntologyLoaderConfiguration().setLoadAnnotationAxioms(true));
-			formula_list = ct.OntologyConverter_ShortForm(ontology);
+			//ontology = manager.loadOntologyFromOntologyDocument(new IRIDocumentSource(iri),
+			//		new OWLOntologyLoaderConfiguration().setLoadAnnotationAxioms(true));
+			formula_list = ct.OntologyConverter_ShortForm(Converter.ontology);
 			result_list = fame.FameCR(c_sig, r_sig, formula_list);
 			long endTime = System.currentTimeMillis();
 			//System.out.println("Duration = " + (endTime - startTime) + "millis");

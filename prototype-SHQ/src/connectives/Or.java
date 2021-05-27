@@ -24,7 +24,17 @@ public class Or extends Formula {
 	
 	public Or(List<Formula> list) {
 		super(list.size());
+		if(list.size()==1){
+			int i = 1;
+		}
 		this.setSubFormulas(list);
+	}
+
+	public Or(Formula...args){
+		super(args.length);
+		for (int i=0;i<args.length;i++){
+			this.getSubFormulas().add(args[i]);
+		}
 	}
 
 	@Override

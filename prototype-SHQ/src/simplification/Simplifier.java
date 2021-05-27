@@ -1,11 +1,8 @@
 package simplification;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import checkfrequency.FChecker;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -60,11 +57,14 @@ public class Simplifier {
 	}
 	//
 	public Formula getSimplifiedForm(Formula formula) throws CloneNotSupportedException {
+
 		
 
 		while (!(formula.equals(simplifiedForm(formula)))) {
 			formula = simplifiedForm(formula);
 		}
+		
+
 		
 		return formula;
 	}
@@ -90,6 +90,8 @@ public class Simplifier {
 		formula = simplified_1(formula);
 		formula = simplified_2(formula);
 		formula = simplified_3(formula);
+		formula = transform_divide(formula);
+
 
 		return formula;
 	}
@@ -836,7 +838,7 @@ public class Simplifier {
 
 		return output_list;
 	}
-	
+
 	static int i = 0;
 
 	public List<Formula> getCNF(Formula formula) {
@@ -861,7 +863,11 @@ public class Simplifier {
 			List<List<Formula>> cp_list = Lists.cartesianProduct(list_list);
 			
 			for (List<Formula> list : cp_list) {
-				output_list.add(new Or(list));
+				if (list.size()==1){
+					output_list.add(list.get(0));
+				} else {
+					output_list.add(new Or(list));
+				}
 			}
 
 			return output_list;		
@@ -895,8 +901,7 @@ public class Simplifier {
 				output_list.add(new And(list));
 			}
 
-			Formula output = new Or(output_list);
-			return output;
+			return new Or(output_list);
 		}
 
 		return formula;
@@ -1008,9 +1013,8 @@ public class Simplifier {
 			}
 			
 			disjunct_list.add(subsumer);
-			
-			Formula clause = new Or(disjunct_list);
-			return clause;
+
+			return new Or(disjunct_list);
 			
 		}
 		
@@ -1104,11 +1108,555 @@ public class Simplifier {
 		}
 		return output_list;
 	}
-	
+
 	public List<Formula> rm_dup_formula(List<Formula> input_list){
 		Set<Formula> set1 = new HashSet<>(input_list);
-		List<Formula> result = new ArrayList<>(set1);
-		return result;
+		return new ArrayList<>(set1);
 	}
-	
+
+	public Formula toOr(Formula formula) {
+		EChecker ec=new EChecker();
+		if (formula instanceof Or) {
+			if (ec.isOrInOr_Strong(formula)) {
+				List<Formula> disjunct_list=formula.getSubFormulas();
+				List<Formula> new_disjunct_list=new ArrayList<>();
+				for(Formula disjunct:disjunct_list) {
+					if(disjunct instanceof Or) {
+						List<Formula> disjunct_list1=disjunct.getSubFormulas();
+						for(Formula formula1:disjunct_list1) {
+							Formula ans=toOr(formula1);
+							if (ans instanceof Or) {
+								new_disjunct_list.addAll(ans.getSubFormulas());
+							} else {
+								new_disjunct_list.add(ans);
+							}
+						}
+					} else {
+						Formula ans=toOr(disjunct);
+						if (ans instanceof Or) {
+							new_disjunct_list.addAll(ans.getSubFormulas());
+						} else {
+							new_disjunct_list.add(ans);
+						}
+
+					}
+				}
+				if (new_disjunct_list.size()==1){
+					return new_disjunct_list.get(0);
+				} else {
+					return new Or(new_disjunct_list);
+				}
+			} else {
+				return formula;
+			}
+
+		} else if (formula instanceof And) {
+			if (ec.isOrInAnd_Strong(formula)) {
+				List<List<Formula>> list_list = new ArrayList<>();
+				List<Formula> conjunct_list = formula.getSubFormulas();
+				for (int i = 0; i < conjunct_list.size(); i++) {
+					list_list.add(i, new ArrayList<>());
+					Formula ans=toOr(conjunct_list.get(i));
+					if (ans instanceof Or) {
+						list_list.get(i).addAll(ans.getSubFormulas());
+					} else {
+						list_list.get(i).add(ans);
+					}
+				}
+
+				List<Formula> output_list = new ArrayList<>();
+				List<List<Formula>> cp_list = Lists.cartesianProduct(list_list);
+
+				for (List<Formula> list : cp_list) {
+					if (list.size()==1){
+						output_list.add(list.get(0));
+					} else {
+						output_list.add(new And(list));
+					}
+				}
+
+				if (output_list.size()==1){
+					return output_list.get(0);
+				} else {
+					return new Or(output_list);
+				}
+			} else {
+				return formula;
+			}
+		} else if (formula instanceof Geq || formula instanceof  Leq) {
+			formula.getSubFormulas().set(1,toOr(formula.getSubFormulas().get(1)));
+			return formula;
+		} else {
+			return formula;
+		}
+
+	}
+
+	public Formula toOr(AtomicConcept concept,Formula formula) {
+		EChecker ec=new EChecker();
+		if (formula instanceof Or) {
+			if (ec.isOrInOr_Strong(formula)) {
+				List<Formula> disjunct_list=formula.getSubFormulas();
+				List<Formula> new_disjunct_list=new ArrayList<>();
+				for(Formula disjunct:disjunct_list) {
+					if(disjunct instanceof Or) {
+						List<Formula> disjunct_list1=disjunct.getSubFormulas();
+						for(Formula formula1:disjunct_list1) {
+							Formula ans=toOr(concept,formula1);
+							if (ans instanceof Or) {
+								new_disjunct_list.addAll(ans.getSubFormulas());
+							} else {
+								new_disjunct_list.add(ans);
+							}
+						}
+					} else {
+						Formula ans=toOr(concept,disjunct);
+						if (ans instanceof Or) {
+							new_disjunct_list.addAll(ans.getSubFormulas());
+						} else {
+							new_disjunct_list.add(ans);
+						}
+
+					}
+				}
+				if (new_disjunct_list.size()==1){
+					return new_disjunct_list.get(0);
+				} else {
+					return new Or(new_disjunct_list);
+				}
+			} else {
+				return formula;
+			}
+
+		} else if (formula instanceof And) {
+			if (ec.isOrInAnd_Strong(formula)) {
+				List<List<Formula>> list_list = new ArrayList<>();
+				List<Formula> conjunct_list = formula.getSubFormulas();
+				for (int i = 0; i < conjunct_list.size(); i++) {
+					list_list.add(i, new ArrayList<>());
+					Formula ans=toOr(concept,conjunct_list.get(i));
+					if (ans instanceof Or && (ans.getSubFormulas().contains(concept) || ans.getSubFormulas().contains(new Negation(concept)))) {
+						list_list.get(i).addAll(ans.getSubFormulas());
+					} else {
+						list_list.get(i).add(ans);
+					}
+				}
+
+				List<Formula> output_list = new ArrayList<>();
+				List<List<Formula>> cp_list = Lists.cartesianProduct(list_list);
+
+				for (List<Formula> list : cp_list) {
+					if (list.size()==1){
+						output_list.add(list.get(0));
+					} else {
+						output_list.add(new And(list));
+					}
+				}
+
+				if (output_list.size()==1){
+					return output_list.get(0);
+				} else {
+					return new Or(output_list);
+				}
+			} else {
+				return formula;
+			}
+		} else if (formula instanceof Geq || formula instanceof  Leq) {
+			formula.getSubFormulas().set(1,toOr(concept,formula.getSubFormulas().get(1)));
+			return formula;
+		} else {
+			return formula;
+		}
+
+	}
+
+	public Formula transform_Exists(Formula formula) {
+		if (formula instanceof Exists) {
+			Formula operand=formula.getSubFormulas().get(1);
+			formula.getSubFormulas().set(1,toOr(operand));
+			operand = formula.getSubFormulas().get(1);
+			if (operand instanceof Or) {
+				List<Formula> new_disjunct_list=new ArrayList<>();
+				List<Formula> disjunct_list=operand.getSubFormulas();
+				for(Formula disjunct:disjunct_list) {
+					new_disjunct_list.add(new Exists(formula.getSubFormulas().get(0),transform_Exists(disjunct)));
+				}
+				return transform_Exists(new Or(new_disjunct_list));
+			} else {
+				return formula;
+			}
+		} else if (formula instanceof And || formula instanceof Or) {
+			List<Formula> operand_list=formula.getSubFormulas();
+			int i;
+			for(i=0;i<operand_list.size();i++) {
+				formula.getSubFormulas().set(i,transform_Exists(operand_list.get(i)));
+			}
+			return formula;
+		} else if (formula instanceof Forall) {
+			formula.getSubFormulas().set(1,transform_Exists(formula.getSubFormulas().get(1)));
+			return formula;
+		} else {
+			return formula;
+		}
+	}
+
+	public Formula transform_divide(Formula formula) {
+		// > 1r.(A or B) to >1r.A or >1r.B    <or.(A or B) to <0r.A and <or.B
+		//System.out.println(formula);
+		if (formula instanceof Leq) {
+
+			int num = ((Leq) formula).get_num();
+			Formula operand=formula.getSubFormulas().get(1);
+			formula.getSubFormulas().set(1, toOr(operand));
+			operand = formula.getSubFormulas().get(1);
+			if (num ==0 && operand instanceof Or) {
+
+				List<Formula> new_disjunct_list = new ArrayList<>();
+				List<Formula> disjunct_list = operand.getSubFormulas();
+				for (Formula disjunct : disjunct_list) {
+					new_disjunct_list.add(new Leq(num, formula.getSubFormulas().get(0), disjunct));
+				}
+				if (new_disjunct_list.size() == 1) {
+					return new_disjunct_list.get(0);
+				} else {
+					return new And(new_disjunct_list);
+				}
+
+			} else {
+				formula.getSubFormulas().set(1,transform_divide(formula.getSubFormulas().get(1)));
+				return formula;
+			}
+		} else if (formula instanceof Geq ){
+			int num = ((Geq) formula).get_num();
+			Formula operand=formula.getSubFormulas().get(1);
+			formula.getSubFormulas().set(1, toOr(operand));
+			operand = formula.getSubFormulas().get(1);
+			if (num ==1 && operand instanceof Or) {
+
+				List<Formula> new_disjunct_list = new ArrayList<>();
+				List<Formula> disjunct_list = operand.getSubFormulas();
+				for (Formula disjunct : disjunct_list) {
+					new_disjunct_list.add(new Geq(num, formula.getSubFormulas().get(0), disjunct));
+				}
+				if (new_disjunct_list.size() == 1) {
+					return new_disjunct_list.get(0);
+				} else {
+					return new Or(new_disjunct_list);
+				}
+
+			} else {
+				formula.getSubFormulas().set(1,transform_divide(formula.getSubFormulas().get(1)));
+				return formula;
+			}
+		} else if (formula instanceof And || formula instanceof Or) {
+			List<Formula> operand_list=formula.getSubFormulas();
+			int i;
+			for(i=0;i<operand_list.size();i++) {
+				formula.getSubFormulas().set(i,transform_divide(operand_list.get(i)));
+			}
+			return formula;
+		}  else {
+			return formula;
+		}
+	}
+
+	public Formula transform_GeqLeq(AtomicConcept concept,Formula formula) {
+		FChecker fc = new FChecker();
+		if (formula instanceof Geq || formula instanceof Leq) {
+			Formula operand=formula.getSubFormulas().get(1);
+			if(!DefinerIntroducer.isStandard(concept,operand)) {
+				formula.getSubFormulas().set(1, toOr(concept,operand));
+			}
+			return formula;
+
+		} else if (formula instanceof And || formula instanceof Or) {
+			List<Formula> operand_list=formula.getSubFormulas();
+			int i;
+			for(i=0;i<operand_list.size();i++) {
+				formula.getSubFormulas().set(i,transform_GeqLeq(concept,operand_list.get(i)));
+			}
+			return formula;
+		}  else if (formula instanceof Negation) {
+			formula.getSubFormulas().set(0,transform_GeqLeq(concept,formula.getSubFormulas().get(0)));
+			return formula;
+		} else {
+			return formula;
+		}
+	}
+
+	public Formula transform_Exists_weak(Formula formula) {
+		if (formula instanceof Exists) {
+			Formula operand=formula.getSubFormulas().get(1);
+			if (operand instanceof Or) {
+				List<Formula> new_disjunct_list=new ArrayList<>();
+				List<Formula> disjunct_list=operand.getSubFormulas();
+				for(Formula disjunct:disjunct_list) {
+					new_disjunct_list.add(new Exists(formula.getSubFormulas().get(0),disjunct));
+				}
+				return new Or(new_disjunct_list);
+			} else {
+				return formula;
+			}
+		} else if (formula instanceof Or) {
+			List<Formula> operand_list=formula.getSubFormulas();
+			int i;
+			for(i=0;i<operand_list.size();i++) {
+				formula.getSubFormulas().set(i,transform_Exists_weak(operand_list.get(i)));
+			}
+			return formula;
+		}  else {
+			return formula;
+		}
+	}
+
+	public Formula transform_Forall(Formula formula) {
+		if (formula instanceof Forall) {
+			Formula operand=formula.getSubFormulas().get(1);
+			formula.getSubFormulas().set(1,toAnd(operand));
+			operand=formula.getSubFormulas().get(1);
+			if (operand instanceof And) {
+				List<Formula> new_conjunct_list=new ArrayList<>();
+				List<Formula> conjunct_list=operand.getSubFormulas();
+				for(Formula conjunct:conjunct_list) {
+					new_conjunct_list.add(new Forall(formula.getSubFormulas().get(0),transform_Forall(conjunct)));
+				}
+				return transform_Forall(new And(new_conjunct_list));
+			} else {
+				return formula;
+			}
+		} else if (formula instanceof And || formula instanceof Or) {
+			List<Formula> operand_list=formula.getSubFormulas();
+			int i;
+			for(i=0;i<operand_list.size();i++) {
+				formula.getSubFormulas().set(i,transform_Forall(operand_list.get(i)));
+			}
+			return formula;
+		} else if (formula instanceof Exists) {
+			formula.getSubFormulas().set(1,transform_Forall(formula.getSubFormulas().get(1)));
+			return formula;
+		} else {
+			return formula;
+		}
+	}
+
+
+	public Formula toAnd(Formula formula) {
+		EChecker ec=new EChecker();
+		if (formula instanceof And) {
+			if (ec.isAndInAnd_Strong(formula)) {
+				List<Formula> conjunct_list=formula.getSubFormulas();
+				List<Formula> new_conjunct_list=new ArrayList<>();
+				for(Formula conjunct:conjunct_list) {
+					if(conjunct instanceof And) {
+						List<Formula> conjunct_list1=conjunct.getSubFormulas();
+						for(Formula formula1:conjunct_list1) {
+							new_conjunct_list.addAll(toAnd(formula1).getSubFormulas());
+						}
+					} else {
+						Formula ans=toAnd(conjunct);
+						if (ans instanceof And) {
+							new_conjunct_list.addAll(ans.getSubFormulas());
+						} else {
+							new_conjunct_list.add(ans);
+						}
+
+					}
+				}
+				if (new_conjunct_list.size()==1){
+					return new_conjunct_list.get(0);
+				} else {
+					return new Or(new_conjunct_list);
+				}
+			} else {
+				return formula;
+			}
+
+		} else if (formula instanceof Or) {
+			if (ec.isAndInOr_Strong(formula)) {
+				List<List<Formula>> list_list = new ArrayList<>();
+				List<Formula> disjunct_list = formula.getSubFormulas();
+				for (int i = 0; i < disjunct_list.size(); i++) {
+					list_list.add(i, new ArrayList<>());
+					Formula ans=toAnd(disjunct_list.get(i));
+					if (ans instanceof And) {
+						list_list.get(i).addAll(ans.getSubFormulas());
+					} else {
+						list_list.get(i).add(ans);
+					}
+				}
+
+				List<Formula> output_list = new ArrayList<>();
+				List<List<Formula>> cp_list = Lists.cartesianProduct(list_list);
+
+				for (List<Formula> list : cp_list) {
+					if (list.size()==1){
+						output_list.add(list.get(0));
+					} else {
+						output_list.add(new Or(list));
+					}
+				}
+				if (output_list.size()==1){
+					return output_list.get(0);
+				} else {
+					return new And(output_list);
+				}
+			} else {
+				return formula;
+			}
+		} else if (formula instanceof Forall) {
+			formula.getSubFormulas().set(1,toAnd(formula.getSubFormulas().get(1)));
+			return formula;
+		} else {
+			return formula;
+		}
+	}
+
+	public List<Formula> converge(AtomicConcept concept, List<Formula> formulaList){
+		List<Formula> output_list = new ArrayList<>();
+		for (Formula formula : formulaList){
+			output_list.add(converge(concept,formula));
+		}
+		return output_list;
+	}
+
+	public Formula converge(AtomicConcept concept, Formula formula){
+		EChecker ec = new EChecker();
+		FChecker fc = new FChecker();
+		if (ec.isPresent(concept,formula)){
+			if (formula instanceof Geq || formula instanceof Leq){
+				Formula operand = formula.getSubFormulas().get(1);
+				if (fc.positive(concept,operand) + fc.negative(concept,operand) == 1){
+					return formula;
+				} else {
+					if (operand instanceof Or && fc.positive(concept,operand)==0){
+						List<Formula> disjunct_list = new ArrayList<>(operand.getSubFormulas());
+						if (disjunct_list.contains(new Negation(concept))){
+							List<Formula> new_disjunct_list = new ArrayList<>();
+							for (Formula disjunct : disjunct_list){
+								if (!ec.isPresent(concept,disjunct) || disjunct.equals(new Negation(concept))){
+									new_disjunct_list.add(disjunct);
+								} else if (!(disjunct instanceof And && disjunct.getSubFormulas().contains(new Negation(concept)))){
+									new_disjunct_list.add(converge(concept,disjunct));
+								}
+							}
+							if (new_disjunct_list.size()==1){
+								formula.getSubFormulas().set(1,new_disjunct_list.get(0));
+							} else {
+								formula.getSubFormulas().set(1,new Or(new_disjunct_list));
+							}
+							return formula;
+
+						} else {
+							List<Formula> inner_disjunct_list = new ArrayList<>();
+							List<Formula> out_disjunct_list = new ArrayList<>();
+							for (Formula disjunct : disjunct_list){
+								if (ec.isPresent(concept,disjunct) && disjunct.getSubFormulas().contains(new Negation(concept))){
+									List<Formula> conjunct_list = new ArrayList<>(disjunct.getSubFormulas());
+									conjunct_list.remove(new Negation(concept));
+									if (conjunct_list.size()==1){
+										inner_disjunct_list.add(conjunct_list.get(0));
+									} else {
+										inner_disjunct_list.add(new And(conjunct_list));
+									}
+								} else if (ec.isPresent(concept,formula)){
+									out_disjunct_list.add(converge(concept,disjunct));
+								} else {
+									out_disjunct_list.add(disjunct);
+								}
+							}
+							List<Formula> and_list = new ArrayList<>();
+							if (inner_disjunct_list.size()==1){
+								and_list.add(inner_disjunct_list.get(0));
+							} else {
+								and_list.add(new Or(inner_disjunct_list));
+							}
+							and_list.add(new Negation(concept));
+							out_disjunct_list.add(new And(and_list));
+							if (out_disjunct_list.size()==1){
+								formula.getSubFormulas().set(1,out_disjunct_list.get(0));
+							} else {
+								formula.getSubFormulas().set(1, new Or(out_disjunct_list));
+							}
+							return formula;
+						}
+					} else if (operand instanceof Or && fc.negative(concept,operand)==0){
+						List<Formula> disjunct_list = new ArrayList<>(operand.getSubFormulas());
+						if (disjunct_list.contains(concept)){
+							List<Formula> new_disjunct_list = new ArrayList<>();
+							for (Formula disjunct : disjunct_list){
+								if (!ec.isPresent(concept,disjunct) || disjunct.equals(concept)){
+									new_disjunct_list.add(disjunct);
+								} else if (!(disjunct instanceof And && disjunct.getSubFormulas().contains(concept))){
+									new_disjunct_list.add(converge(concept,disjunct));
+								}
+							}
+							if (new_disjunct_list.size()==1){
+								formula.getSubFormulas().set(1,new_disjunct_list.get(0));
+							} else {
+								formula.getSubFormulas().set(1,new Or(new_disjunct_list));
+							}
+							return formula;
+						} else {
+							List<Formula> inner_disjunct_list = new ArrayList<>();
+							List<Formula> out_disjunct_list = new ArrayList<>();
+							for (Formula disjunct : disjunct_list){
+								if (ec.isPresent(concept,disjunct) && disjunct.getSubFormulas().contains(concept)){
+									List<Formula> conjunct_list = new ArrayList<>(disjunct.getSubFormulas());
+									conjunct_list.remove(concept);
+									if (conjunct_list.size()==1){
+										inner_disjunct_list.add(conjunct_list.get(0));
+									} else {
+										inner_disjunct_list.add(new And(conjunct_list));
+									}
+								} else if (ec.isPresent(concept,formula)){
+									out_disjunct_list.add(converge(concept,disjunct));
+								} else {
+									out_disjunct_list.add(disjunct);
+								}
+							}
+							List<Formula> and_list = new ArrayList<>();
+							if (inner_disjunct_list.size()==1){
+								and_list.add(inner_disjunct_list.get(0));
+							} else {
+								and_list.add(new Or(inner_disjunct_list));
+							}
+							and_list.add(concept);
+							out_disjunct_list.add(new And(and_list));
+							if (out_disjunct_list.size()==1){
+								formula.getSubFormulas().set(1,out_disjunct_list.get(0));
+							} else {
+								formula.getSubFormulas().set(1, new Or(out_disjunct_list));
+							}
+							return formula;
+						}
+					} else {
+						return formula;
+					}
+				}
+			} else if (formula instanceof Or || formula instanceof And){
+				for (int i=0; i<formula.getSubFormulas().size();i++){
+					formula.getSubFormulas().set(i,converge(concept,formula.getSubFormulas().get(i)));
+				}
+				return formula;
+			} else if (formula instanceof Negation){
+				formula.getSubFormulas().set(0,converge(concept,formula.getSubFormulas().get(0)));
+				return formula;
+			} else {
+				return formula;
+			}
+		} else {
+			return formula;
+		}
+	}
+
+	public List<Formula> transform_GeqLeq(AtomicConcept concept,List<Formula> input_list) throws CloneNotSupportedException {
+
+		List<Formula> output_list = new ArrayList<>();
+		for (Formula formula : input_list){
+			output_list.add(transform_GeqLeq(concept,formula));
+		}
+		return getSimplifiedForm(output_list);
+	}
+
+
 }

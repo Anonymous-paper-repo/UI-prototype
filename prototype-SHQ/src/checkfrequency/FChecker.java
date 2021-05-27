@@ -261,5 +261,36 @@ public class FChecker {
 
 		return 0;
 	}
-	
+
+	public int getRestrictionNum(Formula formula){
+		if (formula instanceof Negation){
+			return getRestrictionNum(formula.getSubFormulas().get(0));
+
+		} else if (formula instanceof Geq || formula instanceof Leq){
+			return getRestrictionNum(formula.getSubFormulas().get(1))+1;
+
+		} else if (formula instanceof AtomicConcept || formula instanceof AtomicRole){
+			return 0;
+
+		} else if (formula instanceof Or || formula instanceof And){
+			int sum = 0;
+			List<Formula> operand_list = formula.getSubFormulas();
+			for (Formula operand : operand_list){
+				sum += getRestrictionNum(operand);
+			}
+			return sum;
+		} else if (formula instanceof Inclusion){
+			return getRestrictionNum(formula.getSubFormulas().get(0))+getRestrictionNum(formula.getSubFormulas().get(1));
+		}
+		return 0;
+	}
+
+
+	public int getRestrictionNum(List<Formula> formula_list){
+		int sum = 0;
+		for (Formula formula : formula_list){
+			sum += getRestrictionNum(formula);
+		}
+		return sum;
+	}
 }

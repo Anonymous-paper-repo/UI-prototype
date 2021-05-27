@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.semanticweb.HermiT.hierarchy.RoleElementManager;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.EntityType;
 import org.semanticweb.owlapi.model.IRI;
@@ -38,6 +39,8 @@ import individual.Individual;
 import roles.AtomicRole;
 import roles.BottomRole;
 import roles.TopRole;
+import roles.Trans;
+import simplification.Simplifier;
 
 
 public class BackConverter {
@@ -114,7 +117,7 @@ public class BackConverter {
 	}
 	
 	
-	private Formula toInclusion(Formula formula) {
+	public Formula toInclusion(Formula formula) {
 
 		if (formula instanceof Inclusion) {
 			return formula;
@@ -154,8 +157,11 @@ public class BackConverter {
 		} else if (formula instanceof Negation) {
 			return new Inclusion(formula.getSubFormulas().get(0), BottomConcept.getInstance());
 
+		} else if (formula instanceof  AtomicRole){
+
+			return new Inclusion(TopRole.getInstance(), formula);
 		} else {
-			return new Inclusion(TopConcept.getInstance(), formula);
+			return new Inclusion(TopConcept.getInstance(),formula);
 		}
 
 	}
@@ -339,7 +345,7 @@ public class BackConverter {
 			return new Negation(new And(new_disjunct_list));
 			
 		}
-	 * @param formula
+	 * @param
 	 * @return
 	 */
 	
@@ -430,18 +436,35 @@ public class BackConverter {
 	}*/
 
 
-	public OWLOntology toOWLOntology(List<Formula> formula_list) throws OWLOntologyCreationException {
+	public OWLOntology toOWLOntology(List<Formula> formula_list) throws OWLOntologyCreationException, CloneNotSupportedException {
 
 		OWLOntology ontology = manager.createOntology();
 
 		for (Formula formula : formula_list) {
-			manager.addAxiom(ontology, toOWLAxiom(formula));
+			if (formula instanceof Trans){
+				manager.addAxiom(ontology, factory.getOWLTransitiveObjectPropertyAxiom(factory.getOWLObjectProperty(IRI.create(formula.getSubFormulas().get(0).getText()))));
+			} else {
+				manager.addAxiom(ontology, toOWLAxiom(toInclusion(formula)));
+			}
 		}
 
 		return ontology;
 	}
+	public Set<OWLAxiom> toOWLAxioms(List<Formula> formula_list) throws CloneNotSupportedException {
+
+		Set<OWLAxiom> owlaxioms = new HashSet<>();
+		for (Formula formula : formula_list) {
+			if (formula instanceof Trans){
+				owlaxioms.add(factory.getOWLTransitiveObjectPropertyAxiom(factory.getOWLObjectProperty(IRI.create(formula.getSubFormulas().get(0).getText()))));
+			} else {
+				owlaxioms.add(toOWLAxiom(toInclusion(formula)));
+			}
+		}
+
+		return owlaxioms;
+	}
 	
-	public Set<OWLAxiom> toOWLAxioms(Set<Formula> formula_set) {
+	public Set<OWLAxiom> toOWLAxioms(Set<Formula> formula_set) throws CloneNotSupportedException {
 
 		Set<OWLAxiom> output_set = new HashSet<>();
 		
@@ -480,10 +503,11 @@ public class BackConverter {
 
 	}*/
 	
-	public OWLAxiom toOWLAxiom(Formula inclusion) { //for SHQ
+	public OWLAxiom toOWLAxiom(Formula inclusion) throws CloneNotSupportedException { //for SHQ
 
 		EChecker ec = new EChecker();
 		//RBox
+		//System.out.println("式子是 ："+inclusion);
 		if (ec.hasRole(inclusion) && !ec.hasRoleRestriction(inclusion)) {
 			return factory.getOWLSubObjectPropertyOfAxiom(
 					toOWLObjectPropertyExpression(inclusion.getSubFormulas().get(0)),
@@ -541,9 +565,9 @@ public class BackConverter {
 		assert false : "Unsupported ClassExpression: " + formula;
 		return null;
 	}*/
-	
+	/*
 	public OWLClassExpression toOWLClassExpression(Formula formula) { //for SHQ
-
+		//System.out.println("式子是：  "+formula);
 		if (formula == TopConcept.getInstance()) {
 			return factory.getOWLThing();
 			
@@ -551,8 +575,7 @@ public class BackConverter {
 			return factory.getOWLNothing();
 			
 		} else if (formula instanceof AtomicConcept) {
-			OWLClass owlClass = factory.getOWLClass(IRI.create(formula.getText()));
-			return owlClass;
+			return factory.getOWLClass(IRI.create(formula.getText()));
 			
 		} else if (formula instanceof Negation) {
 			return factory.getOWLObjectComplementOf(toOWLClassExpression(formula.getSubFormulas().get(0)));
@@ -588,9 +611,61 @@ public class BackConverter {
 
 		assert false : "Unsupported ClassExpression: " + formula;
 		return null;
+	}*/
+
+
+	public OWLClassExpression toOWLClassExpression(Formula formula) throws CloneNotSupportedException { //for SHQ
+		if (formula == TopConcept.getInstance()) {
+			return factory.getOWLThing();
+
+		} else if (formula == BottomConcept.getInstance()) {
+			return factory.getOWLNothing();
+
+		} else if (formula instanceof AtomicConcept) {
+			if (formula.getText().startsWith("Definer")){
+				OWLClass owlClass = factory.getOWLClass(IRI.create(formula.getText()));
+				return owlClass;
+			} else {
+				return Converter.ConceptMap.get(formula);
+			}
+
+		} else if (formula instanceof Negation) {
+			return factory.getOWLObjectComplementOf(toOWLClassExpression(formula.getSubFormulas().get(0)));
+
+		} else if (formula instanceof Geq) {
+			Geq tmp = (Geq) formula;
+			return factory.getOWLObjectMinCardinality(tmp.get_num(),
+					toOWLObjectPropertyExpression(tmp.getSubFormulas().get(0)),
+					toOWLClassExpression(tmp.getSubFormulas().get(1)));
+
+		} else if (formula instanceof Leq) {
+			Leq tmp = (Leq) formula;
+			return factory.getOWLObjectMaxCardinality(tmp.get_num(),
+					toOWLObjectPropertyExpression(tmp.getSubFormulas().get(0)),
+					toOWLClassExpression(tmp.getSubFormulas().get(1)));
+
+		} else if (formula instanceof And) {
+			Set<OWLClassExpression> conjunct_set = new HashSet<>();
+			List<Formula> conjunct_list = formula.getSubFormulas();
+			for (Formula conjunct : conjunct_list) {
+				conjunct_set.add(toOWLClassExpression(conjunct));
+			}
+			return factory.getOWLObjectIntersectionOf(conjunct_set);
+
+		} else if (formula instanceof Or) {
+			Set<OWLClassExpression> disjunct_set = new HashSet<>();
+			List<Formula> disjunct_list = formula.getSubFormulas();
+			for (Formula disjunct : disjunct_list) {
+				disjunct_set.add(toOWLClassExpression(disjunct));
+			}
+			return factory.getOWLObjectUnionOf(disjunct_set);
+		}
+
+		assert false : "Unsupported ClassExpression: " + formula;
+		return null;
 	}
 
-	public OWLObjectPropertyExpression toOWLObjectPropertyExpression(Formula role) {
+	/*public OWLObjectPropertyExpression toOWLObjectPropertyExpression(Formula role) {
 		
 		//System.out.println("role = " + role);
 		//System.out.println("role class = " + role.getClass());
@@ -606,6 +681,27 @@ public class BackConverter {
 		    
 		}
 
+		assert false : "Unsupported ObjectPropertyExpression: " + role;
+		return null;
+	}*/
+
+	public OWLObjectPropertyExpression toOWLObjectPropertyExpression(Formula role) throws CloneNotSupportedException {
+		Simplifier simp = new Simplifier();
+		//System.out.println("role = " + role);
+		//System.out.println("role class = " + role.getClass());
+		role = simp.getSimplifiedForm(role);
+		if (role == TopRole.getInstance()) {
+			return factory.getOWLTopObjectProperty();
+
+		} else if (role == BottomRole.getInstance()) {
+			return factory.getOWLBottomObjectProperty();
+
+		} else if (role instanceof AtomicRole) {
+
+			return Converter.RoleMap.get(role);
+
+		}
+		System.out.println("Unsupported ObjectPropertyExpression: " + role);
 		assert false : "Unsupported ObjectPropertyExpression: " + role;
 		return null;
 	}

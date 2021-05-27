@@ -2,6 +2,7 @@ package forgetting;
 
 import formula.Formula;
 import roles.AtomicRole;
+import roles.Trans;
 import simplification.Simplifier;
 import uk.ac.manchester.cs.owlapi.modularity.ModuleType;
 import uk.ac.manchester.cs.owlapi.modularity.SyntacticLocalityModuleExtractor;
@@ -17,9 +18,13 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import Exception.CyclicCaseException;
+import evaluation.ForgetMine;
+
 
 import com.google.common.collect.Sets;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +42,7 @@ public class Fame {
 	}
 	
 	public OWLOntology FameCR(Set<OWLClass> c_set, Set<OWLObjectProperty> op_set, OWLOntology onto)
-			throws OWLOntologyCreationException, CloneNotSupportedException {
+			throws OWLOntologyCreationException, CloneNotSupportedException, CyclicCaseException {
 		
 		if (op_set.isEmpty() && c_set.isEmpty()) {
 			return onto;
@@ -72,17 +77,33 @@ public class Fame {
 		if (r_sig.isEmpty() && c_sig.isEmpty()) {
 			return formula_list;
 		}
-		
+		List<Formula> trans_list = new ArrayList<>();
+		List<Formula> nontrans_list = new ArrayList<>();
+		for (Formula formula : formula_list){
+			if(formula instanceof Trans){
+				trans_list.add(formula);
+
+			} else {
+				nontrans_list.add(formula);
+			}
+		}
+		ForgetMine.formula_size3 = nontrans_list.size();
 		Simplifier pp = new Simplifier();
-		List<Formula> clause_list = pp.getCNF(pp.getSimplifiedForm(pp.getClauses(formula_list)));
+		List<Formula> clause_list = pp.getCNF(pp.getSimplifiedForm(pp.getClauses(nontrans_list)));
 		
 		//System.out.println("formula_list = " + formula_list.get(0));
 		
 		Forgetter ft = new Forgetter(); 
 		BackConverter bc = new BackConverter();
-		List<Formula> forgetting_solution = bc.toAxiomsList(ft.Forgetting(c_sig, r_sig, clause_list));
-		
-	
+		List<Formula> forgetting_solution = new ArrayList<>();
+		try {
+			forgetting_solution = bc.toAxiomsList(ft.Forgetting_new(c_sig, r_sig, clause_list));
+		} catch (CyclicCaseException e){
+			System.out.println("There is Cyclic axiom");
+			ForgetMine.isCyclic = 1;
+		}
+		forgetting_solution.addAll(trans_list);
+
 		return forgetting_solution;
 	}
 	

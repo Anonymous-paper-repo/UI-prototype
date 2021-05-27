@@ -305,4 +305,80 @@ public class EChecker {
 		}
 		
 	}
+
+	public boolean isOrInAnd_Strong(Formula formula) {
+
+		if (formula instanceof And) {
+			List<Formula> conjunct_list = formula.getSubFormulas();
+
+			for (Formula conjunct : conjunct_list) {
+				if (conjunct instanceof Or) {
+					return true;
+				} else {
+					if(isOrInAnd_Strong(conjunct)) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public boolean isOrInOr_Strong(Formula formula) {
+
+		if (formula instanceof Or) {
+			List<Formula> disjunct_list = formula.getSubFormulas();
+
+			for (Formula disjunct : disjunct_list) {
+				if (disjunct instanceof Or) {
+					return true;
+				} else {
+					if(isOrInOr_Strong(disjunct)) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public boolean isAndInAnd_Strong(Formula formula) {
+
+		if (formula instanceof And) {
+			List<Formula> conjunct_list = formula.getSubFormulas();
+
+			for (Formula conjunct : conjunct_list) {
+				if (conjunct instanceof And) {
+					return true;
+				} else {
+					if (isAndInAnd_Strong(conjunct)) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public boolean isAndInOr_Strong(Formula formula) {
+		if (formula instanceof Or) {
+			List<Formula> disjunct_list = formula.getSubFormulas();
+
+			for (Formula disjunct : disjunct_list) {
+				if (disjunct instanceof And) {
+					return true;
+				} else {
+					if (isAndInOr_Strong(disjunct)) {
+						return true;
+					}
+				}
+
+			}
+		}
+
+		return false;
+	}
 }
