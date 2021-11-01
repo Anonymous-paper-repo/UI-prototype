@@ -10,4 +10,4 @@ To run the uniform interpolation method, go to the directory "Swing" and run the
 
 ## Evaluation
 
-The test ontologies is available in TestData.zip. 
+The test ontologies is available in Data.zip. 
