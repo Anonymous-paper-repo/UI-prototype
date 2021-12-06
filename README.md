@@ -11,3 +11,19 @@ To run the uniform interpolation method, go to the directory "Swing" and run the
 ## Evaluation
 
 The test ontologies is available in Data.zip. 
+
+The statistics of these ontology is shown below.
+| Metrics                | Mean  | Min | 25%  | 50%  | 75%   | Max    |
+|------------------------|-------|-----|------|------|-------|--------|
+| Axioms                 | 5703  | 44  | 706  | 2450 | 6214  | 70116  |
+| Number of Concept name | 3209  | 0   | 382  | 913  | 2890  | 69689  |
+| Number of Role name    | 88    | 1   | 11   | 34   | 89    | 1390   |
+| Structural Complexity  | 13186 | 0   | 1582 | 5393 | 12220 | 169572 |
+
+Structural Complexity is defined by induction.
+SCom(C) = 1, C is a concept name;
+SCom(C1 and C2) = SCom(C1) + SCom(C2), C1 and C2 is concepts.
+SCom(C1 or C2) = SCom(C1) + SCom(C2), C1 and C2 is concepts.
+SCom(not C1) = SCom(C1), C1 is concept.
+SCom(>= mr.C1) = 1 + SCom(C1), C1 is concept.
+SCom(<= nr.C1) = 1 + SCom(C1), C1 is concept.
