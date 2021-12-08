@@ -23,8 +23,8 @@ The meaning of the metrics in the table from top to bottom are the average numbe
 
 Structural Complexity is defined by induction.
 SC(C) = 1, C is a concept name;
-SC(C1 and C2) = SCom(C1) + SCom(C2), C1 and C2 is concepts;
-SC(C1 or C2) = SCom(C1) + SCom(C2), C1 and C2 is concepts;
-SC(not C1) = SCom(C1), C1 is concept;
-SC(>= mr.C1) = 1 + SCom(C1), C1 is concept;
-SC(<= nr.C1) = 1 + SCom(C1), C1 is concept；
+SC(C1 and C2) = SC(C1) + SC(C2), C1 and C2 is concepts;
+SC(C1 or C2) = SC(C1) + SC(C2), C1 and C2 is concepts;
+SC(not C1) = SC(C1), C1 is concept;
+SC(>= mr.C1) = 1 + SC(C1), C1 is concept;
+SC(<= nr.C1) = 1 + SC(C1), C1 is concept；
