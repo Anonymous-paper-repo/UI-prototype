@@ -43,8 +43,8 @@ You can download data.zip and unzip it so that you can use the data to reproduce
 
 There are two ways to calculate the UI:
 1. Run the main method in /src/swing/FameGUI.java or type 'java -jar UI-prototype.jar' in your terminal to call a GUI out. You could load the target ontology by cliking the "Load Ontology" button, and specify the concept/role names you want to forget, click the "Forget" button you will see the uniform interpolant computed by the system. You could save the result locally as an .owl file by clicking the "Save Ontology" button.
-2. Using UI API.
-The is a code template showing how to compute the UI.
+2. Using the UI API.
+There is a code template showing how to compute the UI.
 
 ```java
 package evaluation;
