@@ -111,7 +111,7 @@ public class demo {
 ```
 
 ## Compare with LETHE
-In /src/evaluation/mainTest.java, you can find the code for the evaluation. We compare LETHE with our prototype, and forget the same concept name on the same ontology, and count the running time, success rate and other metrics. To reproduce the experimental results in our WWW2021 paper, you need to configure the following code in the main method in mainTest.java.
+In /src/evaluation/mainTest.java, you can find the code for the evaluation. We compare LETHE with our prototype, and forget the same concept names on the same ontology, and count the running time, success rate and other metrics. To reproduce the experimental results in our WWW2021 paper, you need to configure the following code in the main method in mainTest.java.
 
 Set the log file path. The experimental data will be saved in this file path.
 ```java
