@@ -135,5 +135,9 @@ percent =10; // 30， 50
 ```
 After that, run the main method in mainTest.java to start the experiment. 
 
-You can also run the executable file ‘evaluation.jar’ and pass in the above parameters in the terminal to quickly run our comparison experiment. For example, type 'java -jar evaluation.jar ./log.txt ./LETHEResult/ ./PrototypeResult/ ./testOnto/ 10' in your terminal. The program will read the ontology files in the testOnto folder of the current directory iteratively, and randomly select 10% of the concept names in the ontology, and submit these concept names and the ontology to LETHE and our tools to compute the UI. The results will be saved in the './LETHEResult/' and './PrototypeResult/' folders, and the experimental data will be saved in 'log.txt'.
+You can also run the executable file ‘evaluation.jar’ and pass in the above parameters in the terminal to quickly run our comparison experiment. For example, type 'java -jar evaluation.jar ./log.txt ./LETHEResult/ ./PrototypeResult/ ./testOnto/ 10' in your terminal. 
+```shell
+java -jar evaluation.jar ./log.txt ./LETHEResult/ ./PrototypeResult/ ./testOnto/ 10
+```
+The program will read the ontology files in the testOnto folder of the current directory iteratively, and randomly select 10% of the concept names in the ontology, and submit these concept names and the ontology to LETHE and our tools to compute the UI. The results will be saved in the './LETHEResult/' and './PrototypeResult/' folders, and the experimental data will be saved in 'log.txt'.
 
