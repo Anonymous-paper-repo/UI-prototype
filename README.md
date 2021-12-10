@@ -1,6 +1,6 @@
 # UI-prototype
 
-UI-prototype is a practical tool for computing  uniform interpolants (UI) in SHQ-ontologies. The inputs of UI-prototype are a SHQ-ontologies and a set \sigma of concept names and role names. The outputs is a new ontology and its signatures are retricted in the specified set \sigma. 
+UI-prototype is a practical tool for computing  uniform interpolants (UI) in SHQ-ontologies. The inputs of UI-prototype are a SHQ-ontologies and a set \sigma of concept names and role names. The output is a new ontology and its signatures are retricted in the specified set \sigma. It is the first tool that can simultaneously forget concept names and role names in SHQ which is a very expressive descirption language. 
 
 ## Environment Requirement
 
