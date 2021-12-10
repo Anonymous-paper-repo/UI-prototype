@@ -37,7 +37,6 @@ import formula.Formula;
 
 
 public class mainTest {
-    public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
     public static long LETHERuntime=0;
     public static int LETHEisSuccess=0;
     public static int LETHECyclic=0;
@@ -45,16 +44,27 @@ public class mainTest {
     public static int MyisSuccess=0;
     public static int MyCyclic=0;
     public static int definernum=0;
+    public static int percent = 0;
 
     public static void main(String args[]) throws OWLOntologyCreationException, InterruptedException, ExecutionException {
-        //  指定log文件
-        String logpath = "/Users/yue_x/Desktop/WWW2022/log-30.txt";
-        String LETHEPATH = "/Users/yue_x/Desktop/WWW2022/LETHEForgetOnto/";
-        String MyPATH = "/Users/yue_x/Desktop/WWW2022/MyForgetOnto/";
-        //  指定写入的属性
+        //  Set the log file path. The experimental data will be saved in this file path.
+        String logpath ="";
+
+        // Set the save path of UI that computed by LETHE. The output of LETHE will be saved in this file path.
+        String LETHEPATH = "";
+
+        // Set the save path of UI that computed by our tool. The output of our tool will be saved in this file path.
+        String MyPATH = "";
+
+        // Set the path of test data.
+        String ontologyPath = "";
+
+        // Set the number of signatures the be eliminate.
+        percent = 30;
+
+        //  Metrics
         //String features = "OntologyName, MyisSuccess, MyCyclic, Myruntime, definernum, LETHEissuccess, LETHECyclic, LETHERuntime\n";
-        // 指定ontology的路径
-        String ontologyPath = "/Users/yue_x/Desktop/WWW2022/testOnto";
+
         //WriteFile.writeFile(logpath,features);
 
         File ontopath = new File(ontologyPath);
@@ -64,7 +74,7 @@ public class mainTest {
 
             String filename = file.getName();
             System.out.println(filename);
-            if (!file.isDirectory() && filename.endsWith("xml")){
+            if (!file.isDirectory() && (filename.endsWith("xml") || filename.endsWith("owl"))){
                 MetricReset();
                 evaluation(file,LETHEPATH+filename,MyPATH+filename);
             }
@@ -80,13 +90,13 @@ public class mainTest {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         RandomSelect rs = new RandomSelect();
         Converter ct = new Converter();
-        ct.CReset();
         IRI iri = IRI.create(file);
         OWLOntology inputontology = manager.loadOntologyFromOntologyDocument(new IRIDocumentSource(iri),
                 new OWLOntologyLoaderConfiguration().setLoadAnnotationAxioms(true));
 
+
+
         Set<OWLClass> names = inputontology.getClassesInSignature();
-        int percent  = 30; //定义遗忘数量
         Set<OWLClass> classes = rs.getrandomSet(names, percent);
 
 
@@ -109,9 +119,11 @@ public class mainTest {
         } catch(TimeoutException e) {
             MyisSuccess = 0;
             definernum = AtomicConcept.getTotal_index();
+
+        } catch(IllegalArgumentException e){
+            MyisSuccess=0;
+            MyRuntime=0;
         }
-
-
         //  LETHE forget
         Callable<Void> LETHEtask =new Callable<Void>() {
             public Void call() throws Exception{
@@ -140,6 +152,7 @@ public class mainTest {
     }
 
     public static OWLOntology LETHEForget(OWLOntology onto, Set<OWLClass> pivotList, String save_path) throws OWLOntologyStorageException, FileNotFoundException {
+        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         ShqTBoxForgetter forgetter = new ShqTBoxForgetter();
         Set<OWLEntity> pivotlist = new HashSet<>(pivotList);
         OWLOntology resultontology = forgetter.forget(onto, pivotlist);
@@ -159,6 +172,7 @@ public class mainTest {
     }
 
     public  static OWLOntology PrototypeForget(OWLOntology onto, Set<OWLClass> pivotList, String save_path) throws OWLOntologyCreationException, CloneNotSupportedException, OWLOntologyStorageException, FileNotFoundException {
+        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         Converter ct=new Converter();
         ct.CReset();
 
