@@ -1,6 +1,6 @@
 # UI-prototype
 
-UI-prototype is a practical tool for computing  uniform interpolants (UI) of SHQ-ontologies. The inputs of UI-prototype are an SHQ-ontology and a set Σ of concept and role names. The output is a new ontology and its signatures are retricted in the specified set Σ. It is the first tool that can forget concept names and role names in SHQ which is a very expressive description language. 
+UI-prototype is a practical tool for computing  uniform interpolant (UI) of SHQ-ontologies. The inputs of UI-prototype are an SHQ-ontology and a set Σ of concept and role names. The output is a new ontology and its signatures are restricted in the specified set Σ. It is the first tool that can forget concept names and role names in SHQ which is a very expressive description language. 
 
 ## Environment Requirement
 
@@ -15,16 +15,16 @@ UI-prototype is a practical tool for computing  uniform interpolants (UI) of SHQ
 
 ## Data
 
-The ontologies for the evaluation is available in Data.zip. 
+The ontologies for the evaluation are available in Data.zip. 
 
-The statistics of these ontology is shown below.
-The meaning of the metrics in the table from top to bottom are the average number of axioms, concept names and role names contained in each ontology and the average structure complexity of these ontologies.
-| Metrics                | Mean  | Min | 25%  | 50%  | 75%   | Max    |
+The statistics of these ontologies are shown below.
+The meaning of the metrics in the table from top to bottom is the average number of axioms, concept and role names contained in each ontology, and the average structure complexity of these ontologies.
+| Metrics        | Mean | Min | 25% | 50% | 75%  | Max  |
 |------------------------|-------|-----|------|------|-------|--------|
-| Number of Axioms       | 5703  | 44  | 706  | 2450 | 6214  | 70116  |
-| Number of Concept Name | 3209  | 0   | 382  | 913  | 2890  | 69689  |
-| Number of Role Name    | 88    | 1   | 11   | 34   | 89    | 1390   |
-| Structural Complexity  | 13186 | 0   | 1582 | 5393 | 12220 | 169572 |
+| Number of Axioms    | 5703 | 44 | 706 | 2450 | 6214 | 70116 |
+| Number of Concept Name | 3209 | 0  | 382 | 913 | 2890 | 69689 |
+| Number of Role Name  | 88  | 1  | 11  | 34  | 89  | 1390  |
+| Structural Complexity | 13186 | 0  | 1582 | 5393 | 12220 | 169572 |
 
 Structural Complexity is defined by induction.
 SC(C) = 1, C is a concept name;
@@ -39,7 +39,7 @@ You can download the data.zip and unzip it so that you can use the data to repro
 ## Compute Uniform Interpolant
 
 There are two ways to compute the UI:
-1. Run the main method in /src/swing/FameGUI.java or type 'java -jar UI-prototype.jar' in your terminal to call a GUI out. You could load the target ontology by cliking the "Load Ontology" button, and specify the concept/role names you want to forget, click the "Forget" button you will see the uniform interpolant computed by the system. You could save the result locally as an .owl file by clicking the "Save Ontology" button.
+1. Run the main method in /src/swing/FameGUI.java or type 'java -jar UI-prototype.jar' in your terminal to call a GUI out. You could load the target ontology by clicking the "Load Ontology" button, and specifying the concept/role names you want to forget, click the "Forget" button you will see the uniform interpolant computed by the system. You could save the result locally as an 'owl' file by clicking the "Save Ontology" button.
 2. Using the UI API.
 There is a code template showing how to compute the UI.
 
@@ -65,57 +65,57 @@ import java.util.List;
 import java.util.Set;
 
 public class demo {
-    public void main (String[] args) throws OWLOntologyCreationException, CloneNotSupportedException, FileNotFoundException, OWLOntologyStorageException {
-        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+  public void main (String[] args) throws OWLOntologyCreationException, CloneNotSupportedException, FileNotFoundException, OWLOntologyStorageException {
+    OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 
-        /* TODO: Input your target ontology path */
-        String filePath = "";
+    /* TODO: Input your target ontology path */
+    String filePath = "";
 
-        /* TODO: Enter the save path of the UI. */
-        String OutPutPath = "";
+    /* TODO: Enter the save path of the UI. */
+    String OutPutPath = "";
 
 
-        File file = new File(filePath);
-        IRI iri = IRI.create(file);
-        OWLOntology ontology = manager.loadOntologyFromOntologyDocument(new IRIDocumentSource(iri),
-                new OWLOntologyLoaderConfiguration().setLoadAnnotationAxioms(true));
-        Converter converter = new Converter();
-        converter.CReset();
-        Fame fame = new Fame();
-        List<AtomicRole> roleList = converter.getRolesInSignature_ShortForm(ontology);
-        List<AtomicConcept> conceptList = converter.getConceptsInSignature_ShortForm(ontology);
+    File file = new File(filePath);
+    IRI iri = IRI.create(file);
+    OWLOntology ontology = manager.loadOntologyFromOntologyDocument(new IRIDocumentSource(iri),
+        new OWLOntologyLoaderConfiguration().setLoadAnnotationAxioms(true));
+    Converter converter = new Converter();
+    converter.CReset();
+    Fame fame = new Fame();
+    List<AtomicRole> roleList = converter.getRolesInSignature_ShortForm(ontology);
+    List<AtomicConcept> conceptList = converter.getConceptsInSignature_ShortForm(ontology);
 
-        /* roleList and conceptList contain all signatures that occur in the input ontology.
-        TODO：Write your code to select the names to be eliminated from these two lists.
-        May be you can implement a select function.
-        Set<AtomicConcept> c_sig = select(conceptList);
-        Set<AtomicRole> r_sig =  select(roleList);
-         */
-        Set<AtomicConcept> c_sig = null;
-        Set<AtomicRole> r_sig = null;
-        OWLOntology UIonto = null;
+    /* roleList and conceptList contain all signatures that occur in the input ontology.
+    TODO：Write your code to select the names to be eliminated from these two lists.
+    Maybe you can implement a select function.
+    Set<AtomicConcept> c_sig = select(conceptList);
+    Set<AtomicRole> r_sig = select(roleList);
+     */
+    Set<AtomicConcept> c_sig = null;
+    Set<AtomicRole> r_sig = null;
+    OWLOntology UIonto = null;
 
-        BackConverter backConverter = new BackConverter();
-        List<Formula> formula_list = converter.OntologyConverter_ShortForm(ontology);
-        List<Formula> result_list = fame.FameCR(c_sig, r_sig, formula_list);
-        UIonto = backConverter.toOWLOntology(result_list);
-        File outFile = new File(OutPutPath);
-        OutputStream os = new FileOutputStream(outFile);
-        manager.saveOntology(UIonto, new OWLXMLOntologyFormat(), os);
+    BackConverter backConverter = new BackConverter();
+    List<Formula> formula_list = converter.OntologyConverter_ShortForm(ontology);
+    List<Formula> result_list = fame.FameCR(c_sig, r_sig, formula_list);
+    UIonto = backConverter.toOWLOntology(result_list);
+    File outFile = new File(OutPutPath);
+    OutputStream os = new FileOutputStream(outFile);
+    manager.saveOntology(UIonto, new OWLXMLOntologyFormat(), os);
 
-    }
+  }
 }
 ```
 
 ## Compare with LETHE
-In /src/evaluation/mainTest.java, you can find the code for the evaluation. We compare LETHE with our prototype, and forget the same concept names on the same ontology, and count the running time, success rate and other metrics. To reproduce the experimental results in our WWW2021 paper, you need to configure the following code in the main method in mainTest.java.
+In /src/evaluation/mainTest.java, you can find the code for the evaluation. We compare LETHE with our prototype, and forget the same concept names on the same ontology, and count the running time, success rate, and other metrics. To reproduce the experimental results in our WWW2021 paper, you need to configure the following code in the main method in mainTest.java.
 
 Set the log file path. The experimental data will be saved in this file path.
 ```java
 String logpath ="";
 ```
 
-Set the save path of UI that computed by LETHE. The output of LETHE will be saved in this file path.
+Set the save path of UI computed by LETHE. The output of LETHE will be saved in this file path.
 ```java
 String LETHEPATH = "";
 ```
@@ -129,12 +129,11 @@ Set the path of test data.
 String ontologyPath = "";
 ```
 
-Set the number of signatures the be eliminate. In our experiment, this parameter was set to 10, 30, 50 in turn to compare the scalability of the two tools.
+Set the number of signatures to be eliminated. In our experiment, this parameter was set to 10, 30, 50 in turn to compare the scalability of the two tools.
 ```java
 percent =10; // 30， 50
 ```
 After that, run the main method in mainTest.java to start the experiment. 
 
-You can also run the executable file ‘evaluation.jar’ and pass in the above parameters in the command line to quickly run our comparison experiment. For example, type 'java -jar evaluation.jar ./log.txt ./LETHEResult/ ./PrototypeResult/ ./testOnto/ 10' in your terminal. The program will read the ontology files in the testOnto folder of the current directory iteratively, and randomly select 10% of the concept names in the ontology, and submit these concept names and the ontology to LETHE and our tools to compute the UI. The results will be saved in the './LETHEResult/' and './PrototyoeResult/' folders, and the experimental data will be saved in 'log.txt'.
-
+You can also run the executable file ‘evaluation.jar’ and pass in the above parameters in the terminal to quickly run our comparison experiment. For example, type 'java -jar evaluation.jar ./log.txt ./LETHEResult/ ./PrototypeResult/ ./testOnto/ 10' in your terminal. The program will read the ontology files in the testOnto folder of the current directory iteratively, and randomly select 10% of the concept names in the ontology, and submit these concept names and the ontology to LETHE and our tools to compute the UI. The results will be saved in the './LETHEResult/' and './PrototypeResult/' folders, and the experimental data will be saved in 'log.txt'.
 
