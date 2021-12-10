@@ -21,7 +21,7 @@ The statistics of these ontologies are shown below.
 The meaning of the metrics in the table from top to bottom is the average number of axioms, concept and role names contained in each ontology, and the average structure complexity of these ontologies.
 | Metrics        | Mean | Min | 25% | 50% | 75%  | Max  |
 |------------------------|-------|-----|------|------|-------|--------|
-| Number of Axioms    | 5703 | 44 | 706 | 2450 | 6214 | 70116 |
+| Number of Axiom    | 5703 | 44 | 706 | 2450 | 6214 | 70116 |
 | Number of Concept Name | 3209 | 0  | 382 | 913 | 2890 | 69689 |
 | Number of Role Name  | 88  | 1  | 11  | 34  | 89  | 1390  |
 | Structural Complexity | 13186 | 0  | 1582 | 5393 | 12220 | 169572 |
