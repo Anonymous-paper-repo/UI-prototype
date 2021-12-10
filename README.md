@@ -1,6 +1,6 @@
 # UI-prototype
 
-UI-prototype is a practical tool for computing  uniform interpolants (UI) in SHQ-ontologies. The inputs of UI-prototype are a SHQ-ontologies and a set Σ of concept names and role names. The output is a new ontology and its signatures are retricted in the specified set Σ. It is the first tool that can simultaneously forget concept names and role names in SHQ which is a very expressive description language. 
+UI-prototype is a practical tool for computing  uniform interpolants (UI) of SHQ-ontologies. The inputs of UI-prototype are an SHQ-ontology and a set Σ of concept and role names. The output is a new ontology and its signatures are retricted in the specified set Σ. It is the first tool that can forget concept names and role names in SHQ which is a very expressive description language. 
 
 ## Environment Requirement
 
@@ -13,9 +13,6 @@ UI-prototype is a practical tool for computing  uniform interpolants (UI) in SHQ
 2. Click the ‘import project’ button in the IDE and select the unzipped folder.
 3. Add the jar file in the dependency directory to the classpath.
 
-Run the main method in /src/swing/FameGUI.java. If the program runs normally and the GUI is started, the configuration is successful.
-
-
 ## Data
 
 The ontologies for the evaluation is available in Data.zip. 
@@ -24,18 +21,18 @@ The statistics of these ontology is shown below.
 The meaning of the metrics in the table from top to bottom are the average number of axioms, concept names and role names contained in each ontology and the average structure complexity of these ontologies.
 | Metrics                | Mean  | Min | 25%  | 50%  | 75%   | Max    |
 |------------------------|-------|-----|------|------|-------|--------|
-| Axioms                 | 5703  | 44  | 706  | 2450 | 6214  | 70116  |
-| Number of Concept name | 3209  | 0   | 382  | 913  | 2890  | 69689  |
-| Number of Role name    | 88    | 1   | 11   | 34   | 89    | 1390   |
+| Number of Axioms       | 5703  | 44  | 706  | 2450 | 6214  | 70116  |
+| Number of Concept Name | 3209  | 0   | 382  | 913  | 2890  | 69689  |
+| Number of Role Name    | 88    | 1   | 11   | 34   | 89    | 1390   |
 | Structural Complexity  | 13186 | 0   | 1582 | 5393 | 12220 | 169572 |
 
 Structural Complexity is defined by induction.
 SC(C) = 1, C is a concept name;
-SC(C1 and C2) = SC(C1) + SC(C2), C1 and C2 is concepts;
-SC(C1 or C2) = SC(C1) + SC(C2), C1 and C2 is concepts;
-SC(not C1) = SC(C1), C1 is concept;
-SC(>= mr.C1) = 1 + SC(C1), C1 is concept;
-SC(<= nr.C1) = 1 + SC(C1), C1 is concept；
+SC(C1 and C2) = SC(C1) + SC(C2), C1 and C2 are concepts;
+SC(C1 or C2) = SC(C1) + SC(C2), C1 and C2 are concepts;
+SC(not C1) = SC(C1), C1 is a concept;
+SC(>= mr.C1) = 1 + SC(C1), C1 is a concept;
+SC(<= nr.C1) = 1 + SC(C1), C1 is a concept；
 
 You can download the data.zip and unzip it so that you can use the data to reproduce our experimental results.
 
@@ -136,4 +133,8 @@ Set the number of signatures the be eliminate. In our experiment, this parameter
 ```java
 percent =10; // 30， 50
 ```
-After that, run the main method in mainTest.java to start the experiment.
+After that, run the main method in mainTest.java to start the experiment. 
+
+You can also run the executable file ‘evaluation.jar’ and pass in the above parameters in the command line to quickly run our comparison experiment. For example, type 'java -jar evaluation.jar ./log.txt ./LETHEResult/ ./PrototypeResult/ ./testOnto/ 10' in your terminal. The program will read the ontology files in the testOnto folder of the current directory iteratively, and randomly select 10% of the concept names in the ontology, and submit these concept names and the ontology to LETHE and our tools to compute the UI. The results will be saved in the './LETHEResult/' and './PrototyoeResult/' folders, and the experimental data will be saved in 'log.txt'.
+
+
