@@ -10,7 +10,7 @@ UI-prototype is a practical tool for computing  uniform interpolants (UI) in SHQ
 ## Run configuration
 
 1. Download the entire project and unzip it.
-2. Click the ‘import project’ in the IDE and select the unzipped folder.
+2. Click the ‘import project’ button in the IDE and select the unzipped folder.
 3. Add the jar file in the dependency directory to the classpath.
 
 Run the main method in /src/swing/FameGUI.java. If the program runs normally and the GUI is started, the configuration is successful.
