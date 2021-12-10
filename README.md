@@ -1,16 +1,24 @@
 # UI-prototype
 
-## Usage of the Prototype:
+UI-prototype is a practical tool for computing  uniform interpolants (UI) in SHQ-ontologies. The inputs of UI-prototype are a SHQ-ontologies and a set \sigma of concept names and role names. The outputs is a new ontology and its signatures are retricted in the specified set \sigma. 
 
-To get the prototype work, first you need to make sure you have Java Runtime Environment installed on your machine, and we suggest you using a Java IDE such as Eclipse to run the code.
+## Environment Requirement
 
-Download the source code, together with other files, and import it as a Java project into your IDE. 
+1. jdk 1.8
+2. An IDE (IDEA or Eclipse).
 
-To run the uniform interpolation method, go to the directory "Swing" and run the main method in FameGUI.java to call a GUI out, where you could load the target ontology by cliking the "Load Ontology" button, and specify the concept/role names you want to forget, click the "Forget" button you will see the uniform interpolant computed by the system. You could save the result locally as an .owl file by clicking the "Save Ontology" button. You can also run this prototype through the executable file 'UI-prototype.jar'.
+## Run configuration
 
-## Evaluation
+1. Download the entire project and unzip it.
+2. Click the ‘import project’ in the IDE and select the unzipped folder.
+3. Add the jar file in the dependency directory to the classpath.
 
-The test ontologies is available in Data.zip. 
+Run the main method in /src/swing/FameGUI.java. If the program runs normally and the GUI is started, the configuration is successful.
+
+
+## Data
+
+The ontologies for the evaluation is available in Data.zip. 
 
 The statistics of these ontology is shown below.
 The meaning of the metrics in the table from top to bottom are the average number of axioms, concept names and role names contained in each ontology and the average structure complexity of these ontologies.
@@ -28,3 +36,96 @@ SC(C1 or C2) = SC(C1) + SC(C2), C1 and C2 is concepts;
 SC(not C1) = SC(C1), C1 is concept;
 SC(>= mr.C1) = 1 + SC(C1), C1 is concept;
 SC(<= nr.C1) = 1 + SC(C1), C1 is concept；
+
+You can download data.zip and unzip it so that you can use the data to reproduce our experimental results.
+
+## Compute Uniform Interpolant
+
+There are two ways to calculate the UI:
+1. Run the main method in /src/swing/FameGUI.java or type 'java -jar UI-prototype.jar' in your terminal to call a GUI out. You could load the target ontology by cliking the "Load Ontology" button, and specify the concept/role names you want to forget, click the "Forget" button you will see the uniform interpolant computed by the system. You could save the result locally as an .owl file by clicking the "Save Ontology" button.
+2. Using UI API.
+The is a code template showing how to compute the UI.
+
+```java
+package evaluation;
+
+import concepts.AtomicConcept;
+import convertion.BackConverter;
+import convertion.Converter;
+import forgetting.Fame;
+import formula.Formula;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.io.IRIDocumentSource;
+import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
+import org.semanticweb.owlapi.model.*;
+import roles.AtomicRole;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.Set;
+
+public class demo {
+    public void main (String[] args) throws OWLOntologyCreationException, CloneNotSupportedException, FileNotFoundException, OWLOntologyStorageException {
+        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+
+        /* TODO: Input your target ontology path */
+        String filePath = "";
+
+        /* TODO: Enter the save path of the UI. */
+        String OutPutPath = "";
+
+
+        File file = new File(filePath);
+        IRI iri = IRI.create(file);
+        OWLOntology ontology = manager.loadOntologyFromOntologyDocument(new IRIDocumentSource(iri),
+                new OWLOntologyLoaderConfiguration().setLoadAnnotationAxioms(true));
+        Converter converter = new Converter();
+        converter.CReset();
+        Fame fame = new Fame();
+        List<AtomicRole> roleList = converter.getRolesInSignature_ShortForm(ontology);
+        List<AtomicConcept> conceptList = converter.getConceptsInSignature_ShortForm(ontology);
+
+        /* roleList and conceptList contain all signatures that occur in the input ontology.
+        TODO：Write your code to select the names to be eliminated from these two lists.
+        May be you can implement a select function.
+        Set<AtomicConcept> c_sig = select(conceptList);
+        Set<AtomicRole> r_sig =  select(roleList);
+         */
+        Set<AtomicConcept> c_sig = null;
+        Set<AtomicRole> r_sig = null;
+        OWLOntology UIonto = null;
+
+        BackConverter backConverter = new BackConverter();
+        List<Formula> formula_list = converter.OntologyConverter_ShortForm(ontology);
+        List<Formula> result_list = fame.FameCR(c_sig, r_sig, formula_list);
+        UIonto = backConverter.toOWLOntology(result_list);
+        File outFile = new File(OutPutPath);
+        OutputStream os = new FileOutputStream(outFile);
+        manager.saveOntology(UIonto, new OWLXMLOntologyFormat(), os);
+
+    }
+}
+```
+
+## Compare with LETHE
+In /src/evaluation/mainTest.java, you can find the code for the evaluation. We compare LETHE with our prototype, and forget the same concept name on the same ontology, and count the running time, success rate and other metrics. To reproduce the experimental results in our WWW2021 paper, you need to configure the following code in the main method in mainTest.java. You can read the comments to configure them.
+```java
+//  Set the log file path. The experimental data will be saved in this file path.
+String logpath ="";
+
+// Set the save path of UI that computed by LETHE. The output of LETHE will be saved in this file path.
+String LETHEPATH = "";
+
+// Set the save path of UI that computed by our tool. The output of our tool will be saved in this file path.
+String MyPATH = "";
+
+// Set the path of test data. 
+String ontologyPath = "";
+
+// Set the number of signatures the be eliminate.
+percent = 30;
+```
+
