@@ -139,5 +139,5 @@ You can also run the executable file ‘evaluation.jar’ and pass in the above 
 ```shell
 java -jar evaluation.jar ./log.txt ./LETHEResult/ ./PrototypeResult/ ./testOnto/ 10
 ```
-The program will read the ontology files in the testOnto folder of the current directory iteratively, and randomly select 10% of the concept names in the ontology, and submit these concept names and the ontology to LETHE and our tools to compute the UI. The results will be saved in the './LETHEResult/' and './PrototypeResult/' folders, and the experimental data will be saved in 'log.txt'.
+The program will read the ontology files in the testOnto folder of the current directory iteratively, and randomly select 10% of the concept names in the ontology, and submit these concept names and the ontology to LETHE and our tool to compute the UI. The results will be saved in the './LETHEResult/' and './PrototypeResult/' folders, and the experimental data will be saved in 'log.txt'.
 
