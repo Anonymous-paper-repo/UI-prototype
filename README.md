@@ -37,7 +37,7 @@ SC(not C1) = SC(C1), C1 is concept;
 SC(>= mr.C1) = 1 + SC(C1), C1 is concept;
 SC(<= nr.C1) = 1 + SC(C1), C1 is concept；
 
-You can download data.zip and unzip it so that you can use the data to reproduce our experimental results.
+You can download the data.zip and unzip it so that you can use the data to reproduce our experimental results.
 
 ## Compute Uniform Interpolant
 
