@@ -111,21 +111,29 @@ public class demo {
 ```
 
 ## Compare with LETHE
-In /src/evaluation/mainTest.java, you can find the code for the evaluation. We compare LETHE with our prototype, and forget the same concept name on the same ontology, and count the running time, success rate and other metrics. To reproduce the experimental results in our WWW2021 paper, you need to configure the following code in the main method in mainTest.java. You can read the comments to configure them. After that, run the main method in mainTest.java to start the experiment.
+In /src/evaluation/mainTest.java, you can find the code for the evaluation. We compare LETHE with our prototype, and forget the same concept name on the same ontology, and count the running time, success rate and other metrics. To reproduce the experimental results in our WWW2021 paper, you need to configure the following code in the main method in mainTest.java.  After that, run the main method in mainTest.java to start the experiment.
+
+Set the log file path. The experimental data will be saved in this file path.
 ```java
-//  Set the log file path. The experimental data will be saved in this file path.
 String logpath ="";
+```
 
-// Set the save path of UI that computed by LETHE. The output of LETHE will be saved in this file path.
+Set the save path of UI that computed by LETHE. The output of LETHE will be saved in this file path.
+```java
 String LETHEPATH = "";
-
-// Set the save path of UI that computed by our tool. The output of our tool will be saved in this file path.
+```
+Set the save path of UI that computed by our tool. The output of our tool will be saved in this file path.
+```java
 String MyPATH = "";
+```
 
-// Set the path of test data. 
+Set the path of test data. 
+```java
 String ontologyPath = "";
+```
 
-// Set the number of signatures the be eliminate.
-percent = 30;
+Set the number of signatures the be eliminate. In our experiment, this parameter was set to 10, 30, 50 in turn to compare the scalability of the two tools.
+```java
+percent =10; // 30， 50
 ```
 
